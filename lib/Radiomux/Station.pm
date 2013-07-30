@@ -20,13 +20,15 @@ class Radiomux::Station is abstract {
         return;
       }
       my @plays = $self->extract_plays(decode utf8 => $body);
-      $self->maybe_add_play($_) for @plays;
+      my @new = grep { $self->maybe_add_play($_) } @plays;
+      $self->broadcast(@new) if @new;
     }
   }
 
   method maybe_add_play ($play) {
     return if any { $_->hash eq $play->hash } @$plays;
     $plays = [ sort { $a->timestamp <=> $b->timestamp } @$plays, $play ];
+    return 1;
   }
 
   method subscribe ($callback) {

@@ -53,7 +53,7 @@ subtest "fetch gets some tracks", sub {
   $r->subscribe(sub { $cv->send });
   $r->fetch;
   $cv->recv;
-  is 1, 1;
+  ok @{$r->plays} > 0;
 };
 
 done_testing;
