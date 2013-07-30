@@ -47,4 +47,13 @@ subtest "tracks sorted by timestamp", sub {
   is_deeply $r->plays, [$a, $b, $c];
 };
 
+subtest "fetch gets some tracks", sub {
+  my $r = $station->();
+  my $cv = AE::cv;
+  $r->subscribe(sub { $cv->send });
+  $r->fetch;
+  $cv->recv;
+  is 1, 1;
+};
+
 done_testing;

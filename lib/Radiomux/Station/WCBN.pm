@@ -32,13 +32,15 @@ class Radiomux::Station::WCBN extends Radiomux::Station {
 
   method scraper {
     $scraper //= do {
-      my $nth = sub { "table#playlist > tbody > tr > td:nth-child($_[0])" };
+      my $nth = sub { "table#playlist > tbody > tr > td:nth-last-child($_[0])" };
       scraper {
-        process $nth->(1), 'times[]'   => 'text';
-        process $nth->(2), 'artists[]' => 'text';
+        process "table#playlist > tbody > tr:first-child > td.show", "show", "text";
+        process "table#playlist > tbody > tr:first-child > td.date", "date", "text";
+        process $nth->(5), 'times[]'   => 'text';
+        process $nth->(4), 'artists[]' => 'text';
         process $nth->(3), 'plays[]'  => 'text';
-        process $nth->(4), 'albums[]'  => 'text';
-        process $nth->(5), 'labels[]'  => 'text';
+        process $nth->(2), 'albums[]'  => 'text';
+        process $nth->(1), 'labels[]'  => 'text';
       };
     };
   }

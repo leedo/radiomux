@@ -5,6 +5,7 @@ use mop;
 use List::MoreUtils qw{any};
 use Encode;
 use AE;
+use AnyEvent::HTTP;
 
 class Radiomux::Station is abstract {
   has $plays     is rw = [];
