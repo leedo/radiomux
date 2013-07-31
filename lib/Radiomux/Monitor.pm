@@ -20,7 +20,7 @@ class Radiomux::Monitor {
     $station->subscribe(sub { $self->broadcast(@_) });
   }
 
-  method subscripe ($callback) {
+  method subscribe ($callback) {
     push @$listeners, $callback;
   }
 

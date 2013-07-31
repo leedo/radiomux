@@ -3,6 +3,7 @@ use warnings;
 use mop;
 
 use Web::Scraper;
+use Radiomux::Play;
 use DateTime;
 
 class Radiomux::Station::WCBN extends Radiomux::Station {
