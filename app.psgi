@@ -4,9 +4,6 @@ use warnings;
 use Plack::Builder;
 use Plack::App::File;
 use Plack::Request;
-use Plack::App::Proxy;
-
-use AnyEvent::Handle;
 
 use Radiomux::Proxy::HTTP;
 use Radiomux::Proxy::ICE;
@@ -17,9 +14,9 @@ use Radiomux::Station::WDET;
 use Radiomux::Station::WUOM;
 
 use JSON::XS;
-use Data::Dump qw{pp};
 use Text::Xslate qw{mark_raw};
 use Encode;
+use AnyEvent::Handle;
 
 our $max = 1; # stream counter for unique id
 our (%events, %streams);
@@ -45,6 +42,7 @@ $monitor->start(5);
 
 builder {
   enable "Plack::Middleware::Static", path => qr{^/assets/}, root => "./share/";
+
   mount "/", sub {
     my $env = shift;
     my $html = $template->render("index.tx", {
@@ -80,6 +78,7 @@ builder {
     }
     return [200, ["Content-Type" => "text/plain"], ["ok"]];
   };
+
   mount "/plays", sub {
     my $env = shift;
     die "server does not support psgix.io" unless defined $env->{'psgix.io'};
