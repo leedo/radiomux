@@ -7,57 +7,6 @@ use mop;
 use AnyEvent::Handle;
 use AnyEvent::HTTP;
 
-# stolen from MPEG::Audio::Frame
-my @layers = (
-  undef,  # 0b00 is reserved
-  2,    # 0b01 Layer III
-  1,    # 0b10 Layer II
-  0,    # 0b11 Layer I
-);
-
-my @versions = (
-  1,    # 0b00 MPEG 2.5
-  undef,  # 0b01 is reserved
-  1,    # 0b10 MPEG 2
-  0,    # 0b11 MPEG 1
-);
-
-my @bitrates = (
-    # 0/free 1   10  11  100  101  110  111  1000 1001 1010 1011 1100 1101 1110 # bits
-  [ # mpeg 1
-    [ undef, 32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416, 448 ], # l1
-    [ undef, 32, 48, 56, 64,  80,  96,  112, 128, 160, 192, 224, 256, 320, 384 ], # l2
-    [ undef, 32, 40, 48, 56,  64,  80,  96,  112, 128, 160, 192, 224, 256, 320 ], # l3
-  ],
-  [ # mpeg 2
-    [ undef, 32, 48, 56, 64,  80,  96,  112, 128, 144, 160, 176, 192, 224, 256 ], # l1
-    [ undef, 8,  16, 24, 32,  40,  48,  56,  64,  80,  96,  112, 128, 144, 160 ], # l3
-    [ undef, 8,  16, 24, 32,  40,  48,  56,  64,  80,  96,  112, 128, 144, 160 ], # l3
-  ],
-);
-
-my @samples = (
-  [ # MPEG 2.5
-    11025, # 0b00
-    12000, # 0b01
-    8000,  # 0b10
-    undef, # 0b11 is reserved
-  ],
-  undef, # version 0b01 is reserved
-  [ # MPEG 2
-    22050, # 0b00
-    24000, # 0b01
-    16000, # 0b10
-    undef, # 0b11 is reserved
-  ],
-  [ # MPEG 1
-    44100, # 0b00
-    48000, # 0b01
-    32000, # 0b10
-    undef, # 0b11 is reserved
-  ],
-);
-
 class Proxy {
   has $max = 1;
   has $station is ro;
