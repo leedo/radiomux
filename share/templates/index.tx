@@ -10,26 +10,59 @@
       span.button {
         width: 1em;
         height: 1em;
-        padding: 5px;
+        padding: 5px 5px 4px 5px;
         border-right: 1px solid #ccc;
-        line-height: 1.2em;
+        border-bottom: 1px solid #ccc;
+        border-top: 1px solid #fff;
+        border-left: 1px solid #fff;
+        line-height: 20px;
+        color: #444;
         cursor: pointer;
         display: inline-block;
         text-align: center;
         background: #eee;
+        border-radius: 3px;
+        font-size: 16px;
+        float: right;
       }
       span.paused:after { content: "▶" }
       span.playing:after { content: "❚❚" }
       span.refresh:after { content: "↻"; -webkit-transform: scale(-1, 1); }
+      div.station {
+        width: 300px;
+        float: left;
+        border-right: 1px solid #eee;
+        border-left: 1px solid #eee;
+        padding: 20px;
+        margin-left: -1px;
+      }
+      div.station:first-child {
+        border-left: none;
+      }
+      div.station:last-child {
+        border-right: none;
+      }
+      div.station h2 {
+        font-family: Georgia, "Times New Roman", serif;
+        border-bottom: 1px solid #ccc;
+        line-height: 34px;
+      }
+      ol.plays {
+        list-style: none;
+        padding-left: 0;
+        font-family: "Helvetica Neue", "sans-serif";
+      }
     </style>
   </head>
   <body>
+    <div class="stations">
     : for $monitor.stations -> $station {
     <div class="station" id="station-<: $station.name :>" data-station="<: $station.name :>">
-    <h2><: $station.name :> <span class="button paused"></span><span class="button refresh"></span></h2>
-    <ol class="plays">
-    </ol>
+      <h2><: $station.name :> <span class="button paused"></span><span class="button refresh"></span></h2>
+      <ol class="plays"></ol>
+    </div>
     : }
+    </div>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/js/sprintf.min.js"></script>
     <script type="text/javascript">
@@ -63,10 +96,11 @@
         $('.station').on('click', '.paused', function(e) {
           e.preventDefault();
           if (playing) playing.pause();
-          var name = $(this).parents(".station").attr('data-station');
-          playing = new Audio("/play?station=" + name);
+          var button = $(this);
+          var name = button.parents(".station").attr('data-station');
           $('.playing').removeClass("playing").addClass("paused");
-          $(this).removeClass("paused").addClass("playing");
+          button.removeClass("paused").addClass("playing");
+          playing = new Audio("/play?station=" + name);
           playing.play();
         });
 

@@ -8,9 +8,13 @@ use Plack::App::Proxy;
 
 use AnyEvent::Handle;
 
-use Radiomux::Proxy;
+use Radiomux::Proxy::HTTP;
+use Radiomux::Proxy::ICE;
 use Radiomux::Monitor;
 use Radiomux::Station::WCBN;
+use Radiomux::Station::WEMU;
+use Radiomux::Station::WDET;
+use Radiomux::Station::WUOM;
 
 use JSON::XS;
 use Data::Dump qw{pp};
@@ -34,6 +38,9 @@ $monitor->subscribe(sub {
 });
 
 $monitor->add_station(Radiomux::Station::WCBN->new);
+$monitor->add_station(Radiomux::Station::WEMU->new);
+$monitor->add_station(Radiomux::Station::WDET->new);
+$monitor->add_station(Radiomux::Station::WUOM->new);
 $monitor->start(5);
 
 builder {
@@ -55,8 +62,8 @@ builder {
       if ($station) {
         return sub {
           my $respond = shift;
-
-          my $stream = $streams{$station->name} //= Radiomux::Proxy->new(station => $station);
+          my $class = "Radiomux::Proxy::" . $station->type;
+          my $stream = $streams{$station->name} //= $class->new(station => $station);
           $stream->add_listener($env, $respond);
         };
       }

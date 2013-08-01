@@ -13,6 +13,7 @@ class Station is abstract {
   has $plays     is rw = [];
   has $listeners is rw = [];
   has $id is ro;
+  has $type is ro = "HTTP";
 
   method name     { die "need to override" }
   method station  { die "need to override" }
