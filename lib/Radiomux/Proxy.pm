@@ -12,7 +12,6 @@ class Proxy is abstract {
   has $listeners is rw = {};
   has $queue is rw = [];
   has $http_headers is ro;
-  has $audio_headers is ro;
   has $handle;
   has $connected;
 

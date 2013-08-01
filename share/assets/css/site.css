@@ -1,0 +1,55 @@
+span.button:hover {
+  background: #ddd;
+}
+
+span.button {
+  width: 1em;
+  height: 1em;
+  padding: 5px 5px 4px 5px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  line-height: 20px;
+  color: #444;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  background: #eee;
+  border-radius: 3px;
+  font-size: 16px;
+  float: right;
+}
+
+span.paused:after { content: "▶" }
+span.playing:after { content: "❚❚" }
+span.refresh:after { content: "↻"; -webkit-transform: scale(-1, 1); }
+
+div.station {
+  width: 300px;
+  float: left;
+  border-right: 1px solid #eee;
+  border-left: 1px solid #eee;
+  padding: 20px;
+  margin-left: -1px;
+}
+
+div.station:first-child {
+  border-left: none;
+}
+
+div.station:last-child {
+  border-right: none;
+}
+
+div.station h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  border-bottom: 1px solid #ccc;
+  line-height: 34px;
+}
+
+ol.plays {
+  list-style: none;
+  padding-left: 0;
+  font-family: "Helvetica Neue", "sans-serif";
+}
