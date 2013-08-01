@@ -16,7 +16,7 @@ class ICE extends Radiomux::Proxy {
     tcp_connect $uri->host, $uri->port, sub {
       my ($fh) = @_ or die "unable to connect to stream";
       my $h = AnyEvent::Handle->new(fh => $fh);
-      $h->push_write("GET " . $uri->path . " HTTP/1.0\012\015");
+      $h->push_write("GET " . $uri->path . " HTTP/1.0\012\015\012\015");
       my $headers = [];
       $h->push_read(regex => "\012\015", sub {
         for my $header (split "\r\n", $_[1]) {
