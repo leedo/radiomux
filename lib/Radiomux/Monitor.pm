@@ -29,6 +29,17 @@ class Monitor {
   method broadcast ($station, @tracks) {
     $_->($station, @tracks) for @$listeners;
   }
+
+  method marshall {
+    [
+      map {
+        +{
+          station => $_->name,
+          plays   => [map { $_->marshall } @{$_->plays}],
+        }
+      } @{$self->stations}
+    ];
+  }
 }
 
 1;

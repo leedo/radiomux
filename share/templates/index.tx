@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title><: $title :></title>
+  </head>
+  <body>
+    : for $monitor.stations -> $station {
+    <h2><: $station.name :></h2>
+    <ol id="station-<: $station.name :>">
+    </ol>
+    : }
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/js/sprintf.min.js"></script>
+    <script type="text/javascript">
+      (function(data) {
+        function add_plays (station, plays) {
+          var list = $('#station-' + station);
+          $(plays).each(function(i, play) {
+            var id = "play-" + play.hash;
+            if ($(id).length) return;
+            var li = $('<li/>', {'id': id});
+            var date = new Date(play.timestamp * 1000);
+            li.html(sprintf("%02d:%02d %s - %s", date.getHours(), date.getMinutes(), play.artist, play.title));
+            list.prepend(li);
+          });
+        }
+
+        $(data).each(function(i, update) {
+          add_plays(update.station, update.plays);
+        });
+
+        var plays = new EventSource("/plays");
+        plays.addEventListener("message", function(e) {
+          var data = JSON.parse(e.data);
+          add_plays(data.station, data.plays);
+        });
+      })(<: $data :>);
+    </script>
+  </body>
+</html>
+    

@@ -12,6 +12,7 @@ use AnyEvent::HTTP;
 class Station is abstract {
   has $plays     is rw = [];
   has $listeners is rw = [];
+  has $id is ro;
 
   method name { die "need to override" }
 
