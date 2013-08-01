@@ -14,7 +14,9 @@ class Station is abstract {
   has $listeners is rw = [];
   has $id is ro;
 
-  method name { die "need to override" }
+  method name     { die "need to override" }
+  method station  { die "need to override" }
+  method url      { die "need to override" }
 
   method fetch {
     my $url = $self->url;
@@ -25,7 +27,7 @@ class Station is abstract {
         return;
       }
       my @plays = $self->extract_plays(decode utf8 => $body);
-      my @new = grep { $self->maybe_add_play($_) } @plays;
+      my @new = sort { $a->timestamp <=> $b->timestamp} grep { $self->maybe_add_play($_) } @plays;
       $self->broadcast(@new) if @new;
     }
   }

@@ -3,19 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <title><: $title :></title>
+    <style type="text/css">
+      span.paused,span.playing,span.refresh { cursor: pointer }
+      span.paused:after { content: "▶" }
+      span.playing:after { content: "❚❚" }
+      span.refresh:after { content: "↻"; -webkit-transform: scale(-1, 1); }
+    </style>
   </head>
   <body>
     : for $monitor.stations -> $station {
-    <h2><: $station.name :></h2>
-    <ol id="station-<: $station.name :>">
+    <div class="station" id="station-<: $station.name :>" data-station="<: $station.name :>">
+    <h2><: $station.name :> <span class="paused"></span><span class="refresh"></span></h2>
+    <ol class="plays">
     </ol>
     : }
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/js/sprintf.min.js"></script>
     <script type="text/javascript">
       (function(data) {
+        var playing = null;
+
         function add_plays (station, plays) {
-          var list = $('#station-' + station);
+          var container = $('#station-' + station);
+          var list = container.find("ol.plays");
+
           $(plays).each(function(i, play) {
             var id = "play-" + play.hash;
             if ($(id).length) return;
@@ -34,6 +45,33 @@
         plays.addEventListener("message", function(e) {
           var data = JSON.parse(e.data);
           add_plays(data.station, data.plays);
+        });
+
+        $('.station').on('click', '.paused', function(e) {
+          e.preventDefault();
+          if (playing) playing.pause();
+          var name = $(this).parents(".station").attr('data-station');
+          playing = new Audio("/play?station=" + name);
+          $('.playing').removeClass("playing").addClass("paused");
+          $(this).removeClass("paused").addClass("playing");
+          playing.play();
+        });
+
+        $('.station').on('click', '.playing', function(e) {
+          e.preventDefault();
+          if (playing) {
+            playing.src = "";
+            $(this).removeClass("playing").addClass("paused");
+          }
+        });
+
+        $('.station').on('click', '.refresh', function(e) {
+          var station = $(this).parents(".station").attr("data-station");
+          $.ajax({
+            type: "GET",
+            url: "/refresh",
+            data: { station: station }
+          });
         });
       })(<: $data :>);
     </script>

@@ -11,6 +11,12 @@ class Monitor {
   has $listeners is rw = [];
   has $timer;
 
+  method find_station ($name) {
+    for (@$stations) {
+      return $_ if lc $_->name eq lc $name;
+    }
+  }
+
   method start ($interval) {
     $timer = AE::timer 0, $interval, sub { $self->tick };
   }

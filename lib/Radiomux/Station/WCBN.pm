@@ -10,9 +10,10 @@ use DateTime;
 class WCBN extends Radiomux::Station {
   has $scraper;
   has $show;
-  has $url is ro = "http://www.wcbn.org/playlist";
 
-  method name { "WCBN" }
+  has $url    is ro = "http://www.wcbn.org/playlist";
+  has $name   is ro = "WCBN";
+  has $stream is ro = "http://floyd.wcbn.org:8000/wcbn-hd.mp3";
 
   method extract_plays ($body) {
     my $data = $self->scraper->scrape($body);
@@ -36,6 +37,7 @@ class WCBN extends Radiomux::Station {
         year    => $year,
         hour    => ($ap eq "AM" ? $hour : $hour + 12) - 1,
         minute  => $min,
+        time_zone  => 'America/Detroit',
       );
       push @plays, Radiomux::Play->new(
         timestamp => $date->epoch,
