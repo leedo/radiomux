@@ -4,7 +4,20 @@
     <meta charset="UTF-8" />
     <title><: $title :></title>
     <style type="text/css">
-      span.paused,span.playing,span.refresh { cursor: pointer }
+      span.button:hover {
+        background: #ddd;
+      }
+      span.button {
+        width: 1em;
+        height: 1em;
+        padding: 5px;
+        border-right: 1px solid #ccc;
+        line-height: 1.2em;
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        background: #eee;
+      }
       span.paused:after { content: "▶" }
       span.playing:after { content: "❚❚" }
       span.refresh:after { content: "↻"; -webkit-transform: scale(-1, 1); }
@@ -13,7 +26,7 @@
   <body>
     : for $monitor.stations -> $station {
     <div class="station" id="station-<: $station.name :>" data-station="<: $station.name :>">
-    <h2><: $station.name :> <span class="paused"></span><span class="refresh"></span></h2>
+    <h2><: $station.name :> <span class="button paused"></span><span class="button refresh"></span></h2>
     <ol class="plays">
     </ol>
     : }
