@@ -16,15 +16,12 @@ class Proxy {
   has $audio_headers is ro;
   has $handle;
   has $connected;
-  has $connecting;
 
   method connect {
-    $connecting = 1;
     http_get $station->stream,
       want_body_handle => 1,
       sub {
         my ($_handle, $headers) = @_;
-        $connecting = 0;
 
         if ($headers->{Status} == 200) {
           $http_headers = [ map {$_ => $headers->{$_}} grep {/^[a-z]/} keys $headers ];
@@ -33,15 +30,13 @@ class Proxy {
           $_handle->on_read(sub {
             if (@$queue) {
               # not-so-carefully wait for the next frame header
-              shift->push_read(chunk => 1, sub {
-                if ($_[1] eq "\xff") {
-                  shift->push_read(chunk => 3, sub {
-                    while (my $listener = shift @$queue) {
-                      $self->add_listener(@$listener);
-                    }
-                    $_->push_write("\xff$_[1]") for map { $_->[0] } values %$listeners;
-                  });
+              shift->push_read(regex => qr{\xff}, sub {
+                while (my $listener = shift @$queue) {
+                  AE::log debug => "adding new listener";
+                  $self->_add_listener(@$listener);
                 }
+                my $data = "\xff$_[1]";
+                $_->push_write($data) for map { $_->[0] } values %$listeners;
               });
             }
             else {
@@ -51,7 +46,7 @@ class Proxy {
             }
           });
 
-          $_handle->on_error(sub { $self->destroy });
+          $_handle->on_error(sub { AE::log warn => $_[2]; $self->destroy });
           $handle = $_handle;
         }
         else {
@@ -65,26 +60,25 @@ class Proxy {
   }
 
   method destroy {
+    AE::log debug => "destroying stream";
     $handle->destroy;
     $_->destroy for map { $_->[0] } values %$listeners;
+    $connected = 0;
     $listeners = {};
   }
 
   method add_listener ($env, $respond) {
-    if (!$connected) {
-      warn "adding request to connect queue";
-      push @$queue, [$env, $respond];
-      $self->connect;
-      return;
-    }
+    push @$queue, [$env, $respond];
+    $self->connect unless $connected;
+  }
 
-    warn "responding with stream";
+  method _add_listener ($env, $respond) {
     my $id = $max++;
     my $writer = $respond->([200, [@$http_headers]]);
     my $h = AnyEvent::Handle->new(
       fh => $env->{'psgix.io'},
       on_error => sub {
-        warn $_[2];
+        AE::log warn => $_[2];
         delete $listeners->{$id};
         $self->destroy unless keys %$listeners;
       }
