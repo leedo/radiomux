@@ -6,6 +6,7 @@ use mop;
 use Web::Scraper;
 use Radiomux::Play;
 use DateTime;
+use List::Util qw{min};
 
 class WCBN extends Radiomux::Station {
   has $scraper;
@@ -15,7 +16,7 @@ class WCBN extends Radiomux::Station {
   has $name   is ro = "WCBN";
   has $stream is ro = "http://floyd.wcbn.org:8000/wcbn-hd.mp3";
 
-  method extract_plays ($body) {
+  method extract_plays ($body, $limit) {
     my $data = $self->scraper->scrape($body);
     my $count = -1;
     my @columns = qw{time artist title album label};
@@ -29,7 +30,7 @@ class WCBN extends Radiomux::Station {
     my ($month, $day, $year) = split "/", $data->{date} =~ s/\s+//gr;
     my @plays;
 
-    for my $row (0 .. $count - 1) {
+    for my $row (0 .. min($count - 1, $limit)) {
       my ($hour, $min, $ap) = split /[^\d]/, $data->{time}[$row];
       my $date = DateTime->new(
         month   => $month,
@@ -39,7 +40,7 @@ class WCBN extends Radiomux::Station {
         minute  => $min,
         time_zone  => 'America/Detroit',
       );
-      push @plays, Radiomux::Play->new(
+      unshift @plays, Radiomux::Play->new(
         timestamp => $date->epoch,
         map { $_ => $data->{$_}[$row] } @columns
       );

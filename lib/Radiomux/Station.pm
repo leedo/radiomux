@@ -14,6 +14,7 @@ class Station is abstract {
   has $listeners is rw = [];
   has $id is ro;
   has $type is ro = "HTTP";
+  has $limit = 20;
 
   method name     { die "need to override" }
   method station  { die "need to override" }
@@ -27,16 +28,15 @@ class Station is abstract {
         AE::log warn => "failed to fetch $url - $headers->{Status} ($headers->{Reason})";
         return;
       }
-      my @plays = $self->extract_plays(decode utf8 => $body);
-      my @new = sort { $a->timestamp <=> $b->timestamp} grep { $self->maybe_add_play($_) } @plays;
-      $self->broadcast(@new) if @new;
-    }
-  }
 
-  method maybe_add_play ($play) {
-    return if any { $_->hash eq $play->hash } @$plays;
-    $plays = [ sort { $a->timestamp <=> $b->timestamp } @$plays, $play ];
-    return 1;
+      my @new = $self->extract_plays(decode(utf8 => $body), $limit);
+
+      if (@new and (!@$plays or $plays[0]->hash ne $plays->[0]->hash)) {
+        $self->broadcast(@plays);
+      }
+
+      $plays = \@new;
+    }
   }
 
   method subscribe ($callback) {

@@ -46,10 +46,39 @@ div.station h2 {
   font-family: Georgia, "Times New Roman", serif;
   border-bottom: 1px solid #ccc;
   line-height: 34px;
+  padding: 0 4px;
+  margin: 0;
 }
 
 ol.plays {
   list-style: none;
   padding-left: 0;
   font-family: "Helvetica Neue", "sans-serif";
+  margin-top: 0;
+}
+
+ol.plays li {
+  font-size: 12px;
+  padding: 3px 4px 3px 4px;
+}
+
+ol.plays li:first-child {
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+ol.plays li:nth-child(even) {
+  background: #efefef;
+}
+
+ol.plays li:first-child span.timestamp {
+  color: #333;
+}
+
+span.timestamp {
+  font-family: monospace;
+  padding: 0 2px;
+  margin-left: 3px;
+  color: #999;
+  float: right;
 }
