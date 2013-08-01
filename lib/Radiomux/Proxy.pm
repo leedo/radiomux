@@ -49,6 +49,7 @@ class Proxy is abstract {
     $_->destroy for map { $_->[0] } values %$listeners;
     $connected = 0;
     $listeners = {};
+    $queue = [];
   }
 
   method add_listener ($env, $respond) {

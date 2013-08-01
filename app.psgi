@@ -8,10 +8,13 @@ use Plack::Request;
 use Radiomux::Proxy::HTTP;
 use Radiomux::Proxy::ICE;
 use Radiomux::Monitor;
+use Radiomux::Monitor;
+
 use Radiomux::Station::WCBN;
 use Radiomux::Station::WEMU;
 use Radiomux::Station::WDET;
 use Radiomux::Station::WUOM;
+use Radiomux::Station::WFMU;
 
 use JSON::XS;
 use Text::Xslate qw{mark_raw};
@@ -38,6 +41,7 @@ $monitor->add_station(Radiomux::Station::WCBN->new);
 $monitor->add_station(Radiomux::Station::WEMU->new);
 $monitor->add_station(Radiomux::Station::WDET->new);
 $monitor->add_station(Radiomux::Station::WUOM->new);
+$monitor->add_station(Radiomux::Station::WFMU->new);
 $monitor->start(5);
 
 builder {

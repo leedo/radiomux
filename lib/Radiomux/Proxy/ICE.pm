@@ -10,6 +10,7 @@ use URI;
 
 class ICE extends Radiomux::Proxy {
   has $http_headers is ro;
+  has $connected;
 
   method connect () {
     my $uri = URI->new($self->station->stream);
@@ -17,14 +18,21 @@ class ICE extends Radiomux::Proxy {
       my ($fh) = @_ or die "unable to connect to stream";
       my $h = AnyEvent::Handle->new(fh => $fh);
       $h->push_write("GET " . $uri->path . " HTTP/1.0\015\012\015\012");
-      my $headers = [];
       $h->push_read(regex => qr{\015\012\015\012}, sub {
-        for my $header (split "\015\012", $_[1]) {
+        my @headers = split "\015\012", $_[1];
+
+        if (shift(@headers) !~ /200/) {
+          $self->destroy;
+          return;
+        }
+
+        while (my $header = shift @headers) {
           if ($header =~ /^([a-zA-Z_-]+):\s*(.+)/) {
-            push @$headers, $1, $2;
+            push @$http_headers, $1, $2;
           }
         }
-        $http_headers = $headers;
+
+        $connected = 1;
         $self->setup_handle($h);
       });
     };

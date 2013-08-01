@@ -22,7 +22,7 @@ class HTTP extends Radiomux::Proxy {
           $self->setup_handle($_handle);
         }
         else {
-          $connected = 0;
+          $self->destroy;
         }
       };
   }

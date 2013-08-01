@@ -23,19 +23,22 @@
         function add_plays (station, plays) {
           var container = $('#station-' + station);
           var list = container.find("ol.plays");
-          var replace = list.clone().html("");
+          var html = "";
 
           $(plays).each(function(i, play) {
             var id = "play-" + play.hash;
             if ($(id).length) return;
-            var li = $('<li/>', {'id': id});
             var date = new Date(play.timestamp * 1000);
-            li.html(sprintf("<span class='timestamp'>%02d:%02d</span> %s - %s",
-              date.getHours(), date.getMinutes(), play.artist, play.title));
-            replace.prepend(li);
+            var info = [];
+            $(["artist", "title"]).each(function(i,field) {
+              if (play[field]) info.push(play[field]);
+            });
+
+            html += sprintf("<li id='%s'><span class='timestamp'>%02d:%02d</span> %s</li>",
+              id, date.getHours(), date.getMinutes(), info.join("–"));
           });
 
-          list.replaceWith(replace);
+          list.html(html);
         }
 
         $(data).each(function(i, update) {

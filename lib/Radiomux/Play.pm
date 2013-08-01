@@ -25,7 +25,7 @@ class Play {
   }
 
   method hash {
-    sha1_hex join "", $artist, $title, $album, $label, $timestamp;
+    sha1_hex join "", map {$_ || ""} $artist, $title, $album, $label, $timestamp;
   }
 }
 

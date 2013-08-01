@@ -38,10 +38,6 @@ div.station:first-child {
   border-left: none;
 }
 
-div.station:last-child {
-  border-right: none;
-}
-
 div.station h2 {
   font-family: Georgia, "Times New Roman", serif;
   border-bottom: 1px solid #ccc;

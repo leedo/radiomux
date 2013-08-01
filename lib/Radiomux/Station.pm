@@ -31,8 +31,8 @@ class Station is abstract {
 
       my @new = $self->extract_plays(decode(utf8 => $body), $limit);
 
-      if (@new and (!@$plays or $plays[0]->hash ne $plays->[0]->hash)) {
-        $self->broadcast(@plays);
+      if (@new and (!@$plays or $new[0]->hash ne $plays->[0]->hash)) {
+        $self->broadcast(@new);
       }
 
       $plays = \@new;
