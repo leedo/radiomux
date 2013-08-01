@@ -1,6 +1,6 @@
 package Radiomux::Proxy;
 
-use v5.17;
+use v5.16;
 use warnings;
 use mop;
 
