@@ -1,10 +1,12 @@
+package Radiomux;
+
 use v5.16;
 use warnings;
 use mop;
 
 use AE;
 
-class Radiomux::Monitor {
+class Monitor {
   has $stations  is rw = [];
   has $listeners is rw = [];
   has $timer;

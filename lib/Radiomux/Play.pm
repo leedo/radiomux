@@ -1,10 +1,12 @@
+package Radiomux;
+
 use v5.16;
 use warnings;
 use mop;
 
 use Digest::SHA1 qw(sha1_hex);
 
-class Radiomux::Play {
+class Play {
   has $artist     is ro;
   has $title      is ro;
   has $album      is ro;
@@ -16,6 +18,10 @@ class Radiomux::Play {
     for (qw{artist title timestamp}) {
       die "$_ is required" unless defined $self->$_
     }
+  }
+
+  method marshall {
+    +{ map { $_ => $self->$_ } qw{artist title album label timestamp hash} };
   }
 
   method hash {

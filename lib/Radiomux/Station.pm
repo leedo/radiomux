@@ -1,3 +1,5 @@
+package Radiomux;
+
 use v5.16;
 use warnings;
 use mop;
@@ -7,9 +9,11 @@ use Encode;
 use AE;
 use AnyEvent::HTTP;
 
-class Radiomux::Station is abstract {
+class Station is abstract {
   has $plays     is rw = [];
   has $listeners is rw = [];
+
+  method name { die "need to override" }
 
   method fetch {
     my $url = $self->url;

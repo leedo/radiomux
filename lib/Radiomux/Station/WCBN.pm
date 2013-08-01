@@ -1,3 +1,4 @@
+package Radiomux::Station;
 use v5.16;
 use warnings;
 use mop;
@@ -6,10 +7,12 @@ use Web::Scraper;
 use Radiomux::Play;
 use DateTime;
 
-class Radiomux::Station::WCBN extends Radiomux::Station {
+class WCBN extends Radiomux::Station {
   has $scraper;
   has $show;
   has $url is ro = "http://www.wcbn.org/playlist";
+
+  method name { "WCBN" }
 
   method extract_plays ($body) {
     my $data = $self->scraper->scrape($body);
