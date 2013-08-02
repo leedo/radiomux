@@ -10,7 +10,7 @@
     <div id="stations">
     : for $monitor.stations -> $station {
     <div class="station" id="station-<: $station.name :>" data-station="<: $station.name :>">
-      <h2><: $station.name :> <span class="buttons"><span class="button refresh"></span><span class="button paused"></span></span></h2>
+      <h2><: $station.name :> <span class="buttons"><span class="button paused"></span></span></h2>
       <ol class="plays"></ol>
     </div>
     : }
@@ -84,15 +84,6 @@
 
         $('.station').on('mouseup', '.button', function(e) {
           $(this).removeClass("active");
-        });
-
-        $('.station').on('click', '.refresh', function(e) {
-          var station = $(this).parents(".station").attr("data-station");
-          $.ajax({
-            type: "GET",
-            url: "/refresh",
-            data: { station: station }
-          });
         });
       })(<: $data :>);
     </script>
