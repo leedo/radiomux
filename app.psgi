@@ -91,7 +91,7 @@ builder {
 
       my $h = AnyEvent::Handle->new(
         fh => $env->{'psgix.io'},
-        on_error => sub { warn "error on $id"; delete $events{$id} },
+        on_error => sub { delete $events{$id} },
       );
 
       $events{$id} = [$h, $writer, $env];

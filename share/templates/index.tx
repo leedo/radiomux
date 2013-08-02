@@ -2,11 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title><: $title :></title>
+    <title>Goodradio</title>
     <link type="text/css" rel="stylesheet" href="/assets/css/site.css" />
   </head>
   <body>
-    <div class="stations">
+    <h1>Goodradio<span class="condensed">﹚﹚﹚<span></h1>
+    <div id="stations">
     : for $monitor.stations -> $station {
     <div class="station" id="station-<: $station.name :>" data-station="<: $station.name :>">
       <h2><: $station.name :> <span class="buttons"><span class="button refresh"></span><span class="button paused"></span></span></h2>
@@ -34,8 +35,11 @@
               if (play[field]) info.push(play[field]);
             });
 
-            html += sprintf("<li id='%s'><span class='timestamp'>%02d:%02d</span> %s</li>",
-              id, date.getHours(), date.getMinutes(), info.join(" – "));
+            html += sprintf("<li id='%s'>", id);
+            if (play.timestamp) {
+              html += sprintf("<span class='timestamp'>%02d:%02d</span>", date.getHours(), date.getMinutes());
+            }
+            html += sprintf(" %s</li>", info.join(" – "));
           });
 
           list.html(html);
@@ -54,9 +58,12 @@
         $('.station').on('click', '.paused', function(e) {
           e.preventDefault();
           if (playing) playing.pause();
+          $('.playing').removeClass('playing').addClass("paused");
+          $('.active').removeClass('active');
           var button = $(this);
-          var name = button.parents(".station").attr('data-station');
-          $('.playing').removeClass("playing").addClass("paused");
+          var station = button.parents(".station");
+          var name = station.attr('data-station');
+          station.addClass("active");
           button.removeClass("paused").addClass("playing");
           playing = new Audio("/play?station=" + name);
           playing.play();
@@ -67,6 +74,7 @@
           if (playing) {
             playing.src = "";
             $(this).removeClass("playing").addClass("paused");
+            $(this).parents('.station').removeClass('active');
           }
         });
 

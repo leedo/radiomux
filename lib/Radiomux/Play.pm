@@ -15,7 +15,7 @@ class Play {
   has $hash;
 
   submethod BUILD {
-    for (qw{artist title timestamp}) {
+    for (qw{title}) {
       die "$_ is required" unless defined $self->$_
     }
   }

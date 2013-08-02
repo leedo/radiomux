@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 span.button:hover {
   background: #ddd;
   border-right: 1px solid #bbb;
@@ -40,22 +44,36 @@ span.playing {
   border-bottom: 1px solid #ccc;
 }
 
+span.playing {
+  text-shadow: 0px 0px 3px #fff;
+}
+
 div.station {
   width: 300px;
   float: left;
   border-right: 1px solid #eee;
   border-left: 1px solid #eee;
-  padding: 20px;
+  padding: 10px 10px 20px 10px;
   margin-left: -1px;
 }
 
-div.station:first-child {
-  border-left: none;
+h1 {
+  text-align: center;
+}
+
+span.condensed { 
+  letter-spacing: -24px;
+  margin-left: -12px;
+  display: inline-block;
+  line-height: 16px;
+}
+
+h1, h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  border-bottom: 1px solid #ccc;
 }
 
 div.station h2 {
-  font-family: Georgia, "Times New Roman", serif;
-  border-bottom: 1px solid #ccc;
   line-height: 34px;
   padding: 0 4px;
   margin: 0;
@@ -66,6 +84,7 @@ ol.plays {
   padding-left: 0;
   font-family: "Helvetica Neue", "sans-serif";
   margin-top: 0;
+  margin-bottom: 0;
 }
 
 ol.plays li {
@@ -92,4 +111,17 @@ span.timestamp {
   margin-left: 3px;
   color: #999;
   float: right;
+}
+
+div#stations {
+  padding: 20px;
+  overflow: hidden;
+  width: 700px;
+  margin: 0 auto;
+}
+
+div.station.active h2:after {
+  content: "●";
+  color: #E9452C;
+  line-height: 0px;
 }
