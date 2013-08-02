@@ -58,25 +58,27 @@ div.station {
 }
 
 h1 {
-  text-align: center;
+  text-align: left;
+  font-size: 18px;
+  margin: 5px 10px;
 }
 
 span.condensed { 
-  letter-spacing: -24px;
-  margin-left: -12px;
+  letter-spacing: -14px;
+  margin-left: -5px;
   display: inline-block;
-  line-height: 16px;
+  line-height: 8px;
 }
 
 h1, h2 {
   font-family: Georgia, "Times New Roman", serif;
-  border-bottom: 1px solid #ccc;
 }
 
 div.station h2 {
   line-height: 34px;
   padding: 0 4px;
   margin: 0;
+  border-bottom: 1px solid #ccc;
 }
 
 ol.plays {
@@ -114,10 +116,7 @@ span.timestamp {
 }
 
 div#stations {
-  padding: 20px;
-  overflow: hidden;
-  width: 700px;
-  margin: 0 auto;
+  padding: 10px;
 }
 
 div.station.active h2:after {
