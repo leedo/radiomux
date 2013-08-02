@@ -40,7 +40,7 @@ class WCBN extends Radiomux::Station {
         minute  => $min,
         time_zone  => 'America/Detroit',
       );
-      unshift @plays, Radiomux::Play->new(
+      push @plays, Radiomux::Play->new(
         timestamp => $date->epoch,
         map { $_ => $data->{$_}[$row] } @columns
       );

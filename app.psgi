@@ -5,8 +5,7 @@ use Plack::Builder;
 use Plack::App::File;
 use Plack::Request;
 
-use Radiomux::Proxy::HTTP;
-use Radiomux::Proxy::ICE;
+use Radiomux::Proxy;
 use Radiomux::Monitor;
 use Radiomux::Monitor;
 
@@ -22,7 +21,7 @@ use Encode;
 use AnyEvent::Handle;
 
 our $max = 1; # stream counter for unique id
-our (%events, %streams);
+our %events;
 our $monitor = Radiomux::Monitor->new;
 our $template = Text::Xslate->new(path => "share/templates");
 
@@ -64,9 +63,8 @@ builder {
       if ($station) {
         return sub {
           my $respond = shift;
-          my $class = "Radiomux::Proxy::" . $station->type;
-          my $stream = $streams{$station->name} //= $class->new(station => $station);
-          $stream->add_listener($env, $respond);
+          my $proxy = Radiomux::Proxy->with($station);
+          $proxy->add_listener($env, $respond);
         };
       }
     }

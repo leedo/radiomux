@@ -5,17 +5,29 @@ use warnings;
 use mop;
 
 use AnyEvent::Handle;
+use Radiomux::Proxy::HTTP;
+use Radiomux::Proxy::ICE;
 
 class Proxy is abstract {
   has $max = 1;
   has $station is ro;
   has $listeners is rw = {};
   has $queue is rw = [];
-  has $http_headers is ro;
+  has $http_headers is rw;
   has $handle;
-  has $connected;
+  has $connected is ro;
+
+  submethod with ($_station) {
+    state %proxies;
+    $proxies{$_station->name} //= do {
+      my $klass = "Radiomux::Proxy::" . $_station->type;
+      $klass->new(station => $_station);
+    };
+  }
 
   method setup_handle ($_handle) {
+    warn "setting up main stream for " . $station->name;
+    $connected = 1;
     $_handle->on_read(sub {
       if (@$queue) {
         # not-so-carefully wait for the next frame header

@@ -10,7 +10,6 @@ use URI;
 
 class ICE extends Radiomux::Proxy {
   has $http_headers is ro;
-  has $connected;
 
   method connect () {
     my $uri = URI->new($self->station->stream);
@@ -32,7 +31,6 @@ class ICE extends Radiomux::Proxy {
           }
         }
 
-        $connected = 1;
         $self->setup_handle($h);
       });
     };

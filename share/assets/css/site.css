@@ -1,5 +1,7 @@
 span.button:hover {
   background: #ddd;
+  border-right: 1px solid #bbb;
+  border-bottom: 1px solid #bbb;
 }
 
 span.button {
@@ -8,7 +10,7 @@ span.button {
   padding: 5px 5px 4px 5px;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
-  border-top: 1px solid #fff;
+  border-top: 1px solid #eee;
   border-left: 1px solid #fff;
   line-height: 20px;
   color: #444;
@@ -16,14 +18,27 @@ span.button {
   display: inline-block;
   text-align: center;
   background: #eee;
-  border-radius: 3px;
   font-size: 16px;
+  border-radius: 2px;
+}
+
+span.buttons {
+  display: block;
   float: right;
 }
 
 span.paused:after { content: "▶" }
 span.playing:after { content: "❚❚" }
 span.refresh:after { content: "↻"; -webkit-transform: scale(-1, 1); }
+
+span.button.active,
+span.playing {
+  background: #ddd;
+  border-right: 1px solid #ccc;
+  border-top: 1px solid #bbb;
+  border-left: 1px solid #bbb;
+  border-bottom: 1px solid #ccc;
+}
 
 div.station {
   width: 300px;
