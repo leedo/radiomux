@@ -57,7 +57,7 @@ class Proxy is abstract {
 
   method destroy {
     AE::log debug => "destroying stream";
-    $handle->destroy;
+    $handle->destroy if $handle;
     $_->destroy for map { $_->[0] } values %$listeners;
     $connected = 0;
     $listeners = {};
