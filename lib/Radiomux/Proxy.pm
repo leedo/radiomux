@@ -24,7 +24,7 @@ class Proxy is abstract {
             AE::log debug => "adding new listener";
             $self->_add_listener(@$listener);
           }
-          my $data = "\xff$_[1]";
+          my $data = "$_[1]\xff";
           $_->push_write($data) for map { $_->[0] } values %$listeners;
         });
       }
