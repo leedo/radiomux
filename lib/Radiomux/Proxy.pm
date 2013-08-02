@@ -5,6 +5,7 @@ use warnings;
 use mop;
 
 use AnyEvent::Handle;
+use Radiomux::Frame;
 use Radiomux::Proxy::HTTP;
 use Radiomux::Proxy::ICE;
 
@@ -32,16 +33,25 @@ class Proxy is abstract {
       if (@$queue) {
         # not-so-carefully wait for the next frame header
         shift->push_read(regex => qr{\xff}, sub {
-          while (my $listener = shift @$queue) {
-            AE::log debug => "adding new listener";
-            $self->_add_listener(@$listener);
-          }
-          my $data = "$_[1]\xff";
-          $_->push_write($data) for map { $_->[0] } values %$listeners;
+
+          # write everything up to start of header
+          $_->push_write($_[1]) for map { $_->[0] } values %$listeners;
+
+          # read rest of header
+          shift->push_read(chunk => 3, sub {
+            my $header = "\xff$_[1]";
+            if (Radiomux::Frame::valid_frame($header)) {
+              while (my $listener = shift @$queue) {
+                AE::log debug => "adding new listener";
+                $self->_add_listener(@$listener);
+              }
+              $_->push_write($header) for map { $_->[0] } values %$listeners;
+            }
+          });
         });
       }
       else {
-        shift->push_read(chunk => 1024, sub {
+        shift->push_read(chunk => 1024 * 32, sub {
           $_->push_write($_[1]) for map { $_->[0] } values %$listeners;
         });
       }
