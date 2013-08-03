@@ -149,6 +149,12 @@
         $('.station').on('mouseup', '.button', function(e) {
           $(this).removeClass("active");
         });
+
+        $(document).ready(function() {
+          if (window.navigator.userAgent.match(/Firefox/)) {
+            alert("Firefox can not play MP3 files");
+          }
+        });
       })(<: $data :>);
     </script>
   </body>
