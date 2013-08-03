@@ -9,14 +9,28 @@ class Listener {
   has $env;
   has $writer;
   has $respond;
-  has $id;
+  has $token is ro;
   has $on_error is ro;
+  has $save;
 
   method write {
     $handle->push_write($_[0]);
   }
 
+  method set_save($_save) {
+    $save->destroy if $save;
+    $save = $_save;
+  }
+
+  method stop_save {
+    if ($save) {
+      $save->destroy;
+      return $save->filename;
+    }
+  }
+
   method destroy {
+    $save->destroy   if $save;
     $handle->destroy if $handle;
   }
 
@@ -24,7 +38,7 @@ class Listener {
     $writer = $respond->([200, [@$headers]]);
     $handle = AnyEvent::Handle->new(
       fh => $env->{'psgix.io'},
-      on_error => $on_error,
+      on_error => sub { $on_error->($self->token) },
     );
     return $self;
   }

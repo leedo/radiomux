@@ -18,12 +18,17 @@ use Radiomux::Station::WFMU;
 use JSON::XS;
 use Text::Xslate qw{mark_raw};
 use Encode;
+use Data::UUID;
+
 use AnyEvent::Handle;
+use AnyEvent::Redis;
 
 our $max = 1; # stream counter for unique id
 our %events;
 our $monitor = Radiomux::Monitor->new;
 our $template = Text::Xslate->new(path => "share/templates");
+our $redis = AnyEvent::Redis->new;
+our $uuid = Data::UUID->new;
 
 $monitor->subscribe(sub {
   my ($station, @plays) = @_;
@@ -46,6 +51,14 @@ $monitor->start(5);
 builder {
   enable "Plack::Middleware::Static", path => qr{^/assets/}, root => "./share/";
 
+  my $recordings = Plack::App::File->new(root => "./recordings")->to_app;
+
+  mount "/recordings" => sub {
+    my $res = $recordings->(shift);
+    Plack::Util::header_push($res->[1], "Content-Disposition", "attachment");
+    $res;
+  };
+
   mount "/", sub {
     my $env = shift;
     my $html = $template->render("index.tx", {
@@ -58,29 +71,67 @@ builder {
   mount "/play", sub {
     my $env = shift;
     my $req = Plack::Request->new($env);
-    if (defined $req->parameters->{station}) {
-      my $station = $monitor->find_station($req->parameters->{station});
-      if ($station) {
-        return sub {
-          my $respond = shift;
-          Radiomux::Proxy->with($station)->add_listener($env, $respond);
-        };
-      }
+    my $token = $req->parameters->{token};
+    my $station = $monitor->find_station($req->parameters->{station});
+
+    unless ($station and $token) {
+      return [500, ["Content-Type" => "text/plain"], ["invalid request"]];
     }
-    return [500, ["Content-Type" => "text/plain"], ["invalid station"]];
+
+    return sub {
+      my $respond = shift;
+      $redis->srem($station->name, $token, sub {
+        return $respond->([500, ["Content-Type" => "text/plain"], ["invalid token"]])
+          unless shift == 1;
+        Radiomux::Proxy->with($station)->add_listener($env, $respond, $token);
+      });
+    };
   };
 
-  mount "/record", sub {
+  mount "/token", sub {
     my $env = shift;
     my $req = Plack::Request->new($env);
-    if (defined $req->parameters->{station}) {
-      my $station = $monitor->find_station($req->parameters->{station});
-      if ($station) {
-        Radiomux::Proxy->with($station)->record;
-        return [200, ["Content-Type" => "text/plain"], ["ok"]];
-      }
+    my $station = $monitor->find_station($req->parameters->{station});
+
+    unless ($station) {
+      return [500, ["Content-Type" => "text/plain"], ["invalid station"]];
     }
-    return [500, ["Content-Type" => "text/plain"], ["invalid station"]];
+
+    my $token = $uuid->create_str;
+    return sub {
+      my $respond = shift;
+      $redis->sadd($station->name, $token, sub {
+        $respond->([200, ["Content-Type" => "text/plain"], [$token]]);
+      });
+    };
+  };
+
+  mount "/record/stop", sub {
+    my $env = shift;
+    my $req = Plack::Request->new($env);
+    my $token = $req->parameters->{token};
+    my $station = $monitor->find_station($req->parameters->{station});
+
+    unless ($station and $token) {
+      return [500, ["Content-Type" => "text/plain"], ["invalid request"]];
+    }
+
+    my $filename = Radiomux::Proxy->with($station)->stop_record($token);
+    return [200, ["Content-Type" => "text/plain"], [$filename]];
+  };
+
+  mount "/record/start", sub {
+    my $env = shift;
+    my $req = Plack::Request->new($env);
+    my $token = $req->parameters->{token};
+    my $station = $monitor->find_station($req->parameters->{station});
+
+    unless ($station and $token) {
+      return [500, ["Content-Type" => "text/plain"], ["invalid request"]];
+    }
+
+    Radiomux::Proxy->with($station)->start_record($token);
+    return [200, ["Content-Type" => "text/plain"], ["ok"]];
   };
 
   mount "/plays", sub {

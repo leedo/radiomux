@@ -10,7 +10,7 @@
     <div id="stations">
     : for $monitor.stations -> $station {
     <div class="station" id="station-<: $station.name :>" data-station="<: $station.name :>">
-      <h2><: $station.name :> <span class="buttons"><span class="button record"></span><span class="button paused"></span></span></h2>
+      <h2><: $station.name :> <span class="buttons"><span class="button paused"></span></span></h2>
       <ol class="plays"></ol>
     </div>
     : }
@@ -63,31 +63,71 @@
           var button = $(this);
           var station = button.parents(".station");
           var name = station.attr('data-station');
-          var src = "/play?station=" + name;
-
-          playing = new Audio(src);
 
           button.removeClass("paused playing error").addClass("loading");
 
-          playing.addEventListener("playing", function(e) {
-            button.removeClass("paused loading error").addClass("playing");
-            station.addClass("active");
-          });
+          $.ajax({
+            url: "/token",
+            type: "GET",
+            data: { station: name },
+            success: function(token) {
+              var src = sprintf("/play?token=%s&station=%s", token, name);
+              playing = new Audio(src);
 
-          playing.addEventListener("error", function(e) {
-            // we empty src to stop, which throws an error
-            if (playing.src == src)
-              button.removeClass("playing loading").addClass("error");
+              var record = $('<span/>',{
+                'class': 'button record',
+                'data-listen-token': token
+              });
+
+              playing.addEventListener("playing", function(e) {
+                button.removeClass("paused loading error").addClass("playing");
+                button.before(record);
+                station.addClass("active");
+              });
+
+              playing.addEventListener("error", function(e) {
+                record.remove();
+                // we empty src to stop, which throws an error
+                if (playing.src == src)
+                  button.removeClass("playing loading").addClass("error");
+              });
+
+              playing.play();
+            }
           });
-          playing.play();
+            
+        });
+
+        $('.station').on('click', '.recording', function(e) {
+          var button = $(this);
+          button.removeClass("recording").addClass("record");
+          $.ajax({
+            url: "/record/stop",
+            type: "GET",
+            data: {
+              station: button.parents(".station").attr("data-station"),
+              token: button.attr('data-listen-token')
+            },
+            success: function (download) {
+              if (!download) return;
+              $('body').append($('<iframe/>', {
+                'src': download,
+                'class': 'download'
+              }));
+            }
+          });
         });
 
         $('.station').on('click', '.record', function(e) {
-          $(this).addClass("active");
+          var button = $(this);
+          button.removeClass("record").addClass("recording");
           $.ajax({
-            url: "/record",
+            url: "/record/start",
             type: "GET",
-            data: { station: $(this).parents(".station").attr("data-station") },
+            data: {
+              station: button.parents(".station").attr("data-station"),
+              token: button.attr('data-listen-token')
+            }
           });
         });
 

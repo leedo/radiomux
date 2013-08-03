@@ -13,7 +13,6 @@ use Radiomux::Proxy::HTTP;
 use Radiomux::Proxy::ICE;
 
 class Proxy is abstract {
-  has $max = 1;
   has $station is ro;
   has $listeners is rw = {};
   has $recordings is rw = {};
@@ -46,7 +45,7 @@ class Proxy is abstract {
             if (Radiomux::Frame::valid_frame($header)) {
               while (my $listener = shift @$queue) {
                 AE::log debug => "adding new listener";
-                $listeners->{$listener->id} = $listener;
+                $listeners->{$listener->token} = $listener;
 
                 # don't need any http headers for saves... hmm
                 if (ref $listener eq "Radiomux::Listener") {
@@ -87,27 +86,39 @@ class Proxy is abstract {
       $listener->destroy;
       delete $listeners->{$id};
     }
+    $self->destroy unless %$listeners or @$queue;
   }
 
-  method add_listener ($env, $respond) {
-    my $id = $max++;
-    push @$queue, Radiomux::Listener->new(
+  method add_listener ($env, $respond, $token) {
+    my $listener = Radiomux::Listener->new(
       env      => $env,
       respond  => $respond,
-      id       => $id,
-      on_error => sub { $self->handle_disconnect($id) },
+      token    => $token,
+      on_error => sub { $self->handle_disconnect($_[0]) },
     );
+
+    push @$queue, $listener;
+    $self->connect unless $connected;
+
+    return $listener;
+  }
+
+  method start_record ($token) {
+    die "invalid listener token" unless defined $listeners->{$token};
+
+    my $save = Radiomux::Save->new(
+      station_name => $station->name,
+      on_error     => sub { warn $_[1]; $self->handle_disconnect($_[0]) },
+    );
+
+    $listeners->{$token}->set_save($save);
+    push @$queue, $save;
     $self->connect unless $connected;
   }
 
-  method record {
-    my $id = $max++;
-    push @$queue, Radiomux::Save->new(
-      station_name => $station->name,
-      id           => $id,
-      on_error     => sub { $self->handle_disconnect($id) },
-    );
-    $self->connect unless $connected;
+  method stop_record ($token) {
+    die "invalid listener token" unless defined $listeners->{$token};
+    $listeners->{$token}->stop_save;
   }
 }
 
