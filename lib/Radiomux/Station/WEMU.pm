@@ -6,7 +6,7 @@ use mop;
 
 use DateTime;
 use Radiomux::Play;
-use Web::Scraper;
+use Web::Scraper::LibXML;
 
 my @months = qw{
   january february march april may june july

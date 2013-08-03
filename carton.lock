@@ -466,6 +466,60 @@
          "target" : "Apache::LogFormat::Compiler",
          "version" : "0.13"
       },
+      "Async::Interrupt" : {
+         "dist" : "Async-Interrupt-1.1",
+         "mymeta" : {
+            "abstract" : "unknown",
+            "author" : [
+               "unknown"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.112150, CPAN::Meta::Converter version 2.120921",
+            "license" : [
+               "unknown"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Async-Interrupt",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "0"
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "0"
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "common::sense" : "0"
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "version" : "1.1"
+         },
+         "name" : "Async::Interrupt",
+         "pathname" : "M/ML/MLEHMANN/Async-Interrupt-1.1.tar.gz",
+         "provides" : {
+            "Async::Interrupt" : {
+               "file" : "Interrupt.pm",
+               "version" : "1.1"
+            }
+         },
+         "target" : "Async::Interrupt",
+         "version" : "1.1"
+      },
       "B::Hooks::EndOfScope" : {
          "dist" : "B-Hooks-EndOfScope-0.12",
          "mymeta" : {
@@ -8515,6 +8569,58 @@
          "target" : "Filesys::Notify::Simple",
          "version" : "0.12"
       },
+      "Guard" : {
+         "dist" : "Guard-1.022",
+         "mymeta" : {
+            "abstract" : "unknown",
+            "author" : [
+               "unknown"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker::JSONMETA version 7.000, CPAN::Meta::Converter version 2.120921",
+            "license" : [
+               "unknown"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Guard",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "0"
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "0"
+                  }
+               },
+               "runtime" : {
+                  "requires" : {}
+               }
+            },
+            "release_status" : "stable",
+            "version" : "1.022"
+         },
+         "name" : "Guard",
+         "pathname" : "M/ML/MLEHMANN/Guard-1.022.tar.gz",
+         "provides" : {
+            "Guard" : {
+               "file" : "Guard.pm",
+               "version" : "1.022"
+            }
+         },
+         "target" : "Guard",
+         "version" : "1.022"
+      },
       "HTML::Parser" : {
          "dist" : "HTML-Parser-3.71",
          "mymeta" : {
@@ -9007,6 +9113,117 @@
          },
          "target" : "HTML::TreeBuilder",
          "version" : "5.03"
+      },
+      "HTML::TreeBuilder::LibXML" : {
+         "dist" : "HTML-TreeBuilder-LibXML-0.23",
+         "mymeta" : {
+            "abstract" : "HTML::TreeBuilder and XPath compatible interface with libxml",
+            "author" : [
+               "Tokuhiro Matsuno <tokuhirom@gmail.com>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "Minilla/v0.4.2, CPAN::Meta::Converter version 2.120921",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "HTML-TreeBuilder-LibXML",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "xt",
+                  "inc",
+                  "share",
+                  "eg",
+                  "examples",
+                  "author"
+               ]
+            },
+            "prereqs" : {
+               "configure" : {
+                  "requires" : {
+                     "CPAN::Meta" : "0",
+                     "CPAN::Meta::Prereqs" : "0",
+                     "Module::Build" : "0.38"
+                  }
+               },
+               "develop" : {
+                  "requires" : {
+                     "Test::CPAN::Meta" : "0",
+                     "Test::MinimumVersion" : "0.10108",
+                     "Test::Perl::Critic" : "0",
+                     "Test::Pod" : "1.41",
+                     "Test::Spellunker" : "v0.2.2"
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "HTML::TreeBuilder::XPath" : "0.14",
+                     "LWP::UserAgent" : "6",
+                     "URI" : "0",
+                     "Web::Scraper" : "0",
+                     "XML::LibXML" : "1.7",
+                     "perl" : "5.008001"
+                  }
+               },
+               "test" : {
+                  "requires" : {
+                     "Test::Exception" : "0",
+                     "Test::More" : "0.98"
+                  }
+               }
+            },
+            "provides" : {
+               "HTML::TreeBuilder::LibXML" : {
+                  "file" : "lib/HTML/TreeBuilder/LibXML.pm",
+                  "version" : "0.23"
+               },
+               "HTML::TreeBuilder::LibXML::Node" : {
+                  "file" : "lib/HTML/TreeBuilder/LibXML/Node.pm",
+                  "version" : "0"
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "bugtracker" : {
+                  "web" : "https://github.com/tokuhirom/HTML-TreeBuilder-LibXML/issues"
+               },
+               "homepage" : "https://github.com/tokuhirom/HTML-TreeBuilder-LibXML",
+               "repository" : {
+                  "type" : "git",
+                  "url" : "git://github.com/tokuhirom/HTML-TreeBuilder-LibXML.git",
+                  "web" : "https://github.com/tokuhirom/HTML-TreeBuilder-LibXML"
+               }
+            },
+            "version" : "0.23",
+            "x_contributors" : [
+               "Masahiro Chiba <nihen@megabbs.com>",
+               "kimura.hideo <kimurahideo@Administrator.local>",
+               "Tatsuhiko Miyagawa <miyagawa@bulknews.net>",
+               "Perlover <perlover@perlover.com>",
+               "John SJ Anderson <johna@farematrix.com>",
+               "Oleg G <verdrehung@gmail.com>",
+               "Stanislaw Pusep <creaktive@gmail.com>",
+               "Carlos Fernando Avila Gratz <cafe01@gmail.com>",
+               "Carlos Fernando Avila Gratz <cafe@q1software.com>"
+            ]
+         },
+         "name" : "HTML::TreeBuilder::LibXML",
+         "pathname" : "C/CA/CAFEGRATZ/HTML-TreeBuilder-LibXML-0.23.tar.gz",
+         "provides" : {
+            "HTML::TreeBuilder::LibXML" : {
+               "file" : "lib/HTML/TreeBuilder/LibXML.pm",
+               "version" : "0.23"
+            },
+            "HTML::TreeBuilder::LibXML::Node" : {
+               "file" : "lib/HTML/TreeBuilder/LibXML/Node.pm"
+            }
+         },
+         "target" : "HTML::TreeBuilder::LibXML",
+         "version" : "0.23"
       },
       "HTML::TreeBuilder::XPath" : {
          "dist" : "HTML-TreeBuilder-XPath-0.14",
@@ -12484,6 +12701,77 @@
          },
          "target" : "Net::HTTP",
          "version" : "6.06"
+      },
+      "Net::SSLeay" : {
+         "dist" : "Net-SSLeay-1.55",
+         "mymeta" : {
+            "abstract" : "Perl extension for using OpenSSL",
+            "author" : [
+               "Maintained by Mike McCauley and Florian Ragwitz since November 2005"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "Module::Install version 1.06, CPAN::Meta::Converter version 2.120921",
+            "license" : [
+               "ssleay"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "Net-SSLeay",
+            "no_index" : {
+               "directory" : [
+                  "examples",
+                  "ext",
+                  "helper_script",
+                  "inc",
+                  "t"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "6.36"
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "6.36"
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "MIME::Base64" : "0",
+                     "Test::More" : "0.60_01",
+                     "perl" : "5.005"
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "bugtracker" : {
+                  "web" : "https://rt.cpan.org/Public/Dist/Display.html?Name=net-ssleay"
+               },
+               "repository" : {
+                  "url" : "http://svn.debian.org/wsvn/net-ssleay"
+               }
+            },
+            "version" : "1.53"
+         },
+         "name" : "Net::SSLeay",
+         "pathname" : "M/MI/MIKEM/Net-SSLeay-1.55.tar.gz",
+         "provides" : {
+            "Net::SSLeay" : {
+               "file" : "lib/Net/SSLeay.pm",
+               "version" : "1.55"
+            },
+            "Net::SSLeay::Handle" : {
+               "file" : "lib/Net/SSLeay/Handle.pm",
+               "version" : "0.61"
+            }
+         },
+         "target" : "Net::SSLeay",
+         "version" : "1.55"
       },
       "Package::DeprecationManager" : {
          "dist" : "Package-DeprecationManager-0.13",
@@ -17497,6 +17785,445 @@
          },
          "target" : "Web::Scraper",
          "version" : "0.37"
+      },
+      "XML::LibXML" : {
+         "dist" : "XML-LibXML-2.0019",
+         "mymeta" : {
+            "abstract" : "Interface to Gnome libxml2 xml parsing and DOM library",
+            "author" : [
+               "Petr Pajas"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.131560, CPAN::Meta::Converter version 2.120921",
+            "keywords" : [
+               "dom",
+               "html",
+               "libxml",
+               "object oriented",
+               "oop",
+               "parse",
+               "parser",
+               "parsing",
+               "pullparser",
+               "sax",
+               "sgml",
+               "xml",
+               "xpath",
+               "XPath",
+               "xs"
+            ],
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "XML-LibXML",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "0"
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "0"
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "6.56",
+                     "Test::More" : "0",
+                     "XML::NamespaceSupport" : "1.07",
+                     "XML::SAX" : "0.11",
+                     "base" : "0",
+                     "strict" : "0",
+                     "vars" : "0",
+                     "warnings" : "0"
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "homepage" : "https://bitbucket.org/shlomif/perl-xml-libxml",
+               "repository" : {
+                  "url" : "https://bitbucket.org/shlomif/perl-xml-libxml"
+               }
+            },
+            "version" : "2.0019"
+         },
+         "name" : "XML::LibXML",
+         "pathname" : "S/SH/SHLOMIF/XML-LibXML-2.0019.tar.gz",
+         "provides" : {
+            "XML::LibXML" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Attr" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::AttributeHash" : {
+               "file" : "lib/XML/LibXML/AttributeHash.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Boolean" : {
+               "file" : "lib/XML/LibXML/Boolean.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::CDATASection" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Comment" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Common" : {
+               "file" : "lib/XML/LibXML/Common.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Devel" : {
+               "file" : "lib/XML/LibXML/Devel.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Document" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::DocumentFragment" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Dtd" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Element" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::ErrNo" : {
+               "file" : "lib/XML/LibXML/ErrNo.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Error" : {
+               "file" : "lib/XML/LibXML/Error.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::InputCallback" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Literal" : {
+               "file" : "lib/XML/LibXML/Literal.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::NamedNodeMap" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Namespace" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Node" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::NodeList" : {
+               "file" : "lib/XML/LibXML/NodeList.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Number" : {
+               "file" : "lib/XML/LibXML/Number.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::PI" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Pattern" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Reader" : {
+               "file" : "lib/XML/LibXML/Reader.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::RegExp" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::RelaxNG" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::SAX" : {
+               "file" : "lib/XML/LibXML/SAX.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::SAX::AttributeNode" : {
+               "file" : "lib/XML/LibXML/SAX/Generator.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::SAX::Builder" : {
+               "file" : "lib/XML/LibXML/SAX/Builder.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::SAX::Generator" : {
+               "file" : "lib/XML/LibXML/SAX/Generator.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::SAX::Parser" : {
+               "file" : "lib/XML/LibXML/SAX/Parser.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Schema" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::Text" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::XPathContext" : {
+               "file" : "lib/XML/LibXML/XPathContext.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::XPathExpression" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            },
+            "XML::LibXML::_SAXParser" : {
+               "file" : "LibXML.pm",
+               "version" : "2.0019"
+            }
+         },
+         "target" : "XML::LibXML",
+         "version" : "2.0019"
+      },
+      "XML::NamespaceSupport" : {
+         "dist" : "XML-NamespaceSupport-1.11",
+         "mymeta" : {
+            "abstract" : "a simple generic namespace support class",
+            "author" : [
+               "Robin Berjon, robin@knowscape.com, with lots of it having been done"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "Module::Install version 0.95, CPAN::Meta::Converter version 2.120921",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "XML-NamespaceSupport",
+            "no_index" : {
+               "directory" : [
+                  "inc",
+                  "t"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "6.42",
+                     "Test::More" : "0.47"
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "6.42"
+                  }
+               },
+               "runtime" : {
+                  "requires" : {}
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "license" : [
+                  "http://dev.perl.org/licenses/"
+               ],
+               "repository" : {
+                  "type" : "git",
+                  "url" : "git://github.com/perigrin/xml-namespacesupport.git"
+               }
+            },
+            "version" : "1.11"
+         },
+         "name" : "XML::NamespaceSupport",
+         "pathname" : "P/PE/PERIGRIN/XML-NamespaceSupport-1.11.tar.gz",
+         "provides" : {
+            "XML::NamespaceSupport" : {
+               "file" : "lib/XML/NamespaceSupport.pm",
+               "version" : "1.11"
+            }
+         },
+         "target" : "XML::NamespaceSupport",
+         "version" : "1.11"
+      },
+      "XML::SAX" : {
+         "dist" : "XML-SAX-0.99",
+         "mymeta" : {
+            "abstract" : "unknown",
+            "author" : [
+               "unknown"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "ExtUtils::MakeMaker version 6.55_02, CPAN::Meta::Converter version 2.120921",
+            "license" : [
+               "unknown"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "XML-SAX",
+            "no_index" : {
+               "directory" : [
+                  "t",
+                  "inc"
+               ]
+            },
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "0"
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "0"
+                  }
+               },
+               "runtime" : {
+                  "requires" : {
+                     "File::Temp" : "0",
+                     "XML::NamespaceSupport" : "0.03",
+                     "XML::SAX::Base" : "1.05"
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "version" : "0.99"
+         },
+         "name" : "XML::SAX",
+         "pathname" : "G/GR/GRANTM/XML-SAX-0.99.tar.gz",
+         "provides" : {
+            "XML::SAX" : {
+               "file" : "SAX.pm",
+               "version" : "0.99"
+            },
+            "XML::SAX::DocumentLocator" : {
+               "file" : "SAX/DocumentLocator.pm"
+            },
+            "XML::SAX::ParserFactory" : {
+               "file" : "SAX/ParserFactory.pm",
+               "version" : "1.01"
+            },
+            "XML::SAX::PurePerl" : {
+               "file" : "SAX/PurePerl/UnicodeExt.pm"
+            },
+            "XML::SAX::PurePerl::DebugHandler" : {
+               "file" : "SAX/PurePerl/DebugHandler.pm"
+            },
+            "XML::SAX::PurePerl::Exception" : {
+               "file" : "SAX/PurePerl/Exception.pm"
+            },
+            "XML::SAX::PurePerl::Productions" : {
+               "file" : "SAX/PurePerl/Productions.pm"
+            },
+            "XML::SAX::PurePerl::Reader" : {
+               "file" : "SAX/PurePerl/Reader/UnicodeExt.pm"
+            },
+            "XML::SAX::PurePerl::Reader::Stream" : {
+               "file" : "SAX/PurePerl/Reader/Stream.pm"
+            },
+            "XML::SAX::PurePerl::Reader::String" : {
+               "file" : "SAX/PurePerl/Reader/String.pm"
+            },
+            "XML::SAX::PurePerl::Reader::URI" : {
+               "file" : "SAX/PurePerl/Reader/URI.pm"
+            }
+         },
+         "target" : "XML::SAX",
+         "version" : "0.99"
+      },
+      "XML::SAX::Base" : {
+         "dist" : "XML-SAX-Base-1.08",
+         "mymeta" : {
+            "abstract" : "Base class for SAX Drivers and Filters",
+            "author" : [
+               "Grant McLean <grantm@cpan.org>"
+            ],
+            "dynamic_config" : 0,
+            "generated_by" : "Dist::Zilla version 4.200004, CPAN::Meta::Converter version 2.101670, CPAN::Meta::Converter version 2.120921",
+            "license" : [
+               "perl_5"
+            ],
+            "meta-spec" : {
+               "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+               "version" : "2"
+            },
+            "name" : "XML-SAX-Base",
+            "prereqs" : {
+               "build" : {
+                  "requires" : {
+                     "Test::More" : "0.88"
+                  }
+               },
+               "configure" : {
+                  "requires" : {
+                     "ExtUtils::MakeMaker" : "6.31"
+                  }
+               },
+               "runtime" : {
+                  "requires" : {}
+               },
+               "test" : {
+                  "requires" : {
+                     "Test::More" : "0.88"
+                  }
+               }
+            },
+            "release_status" : "stable",
+            "resources" : {
+               "repository" : {
+                  "type" : "git",
+                  "url" : "git://github.com/grantm/XML-SAX-Base.git",
+                  "web" : "http://github.com/grantm/XML-SAX-Base"
+               }
+            },
+            "version" : "1.08"
+         },
+         "name" : "XML::SAX::Base",
+         "pathname" : "G/GR/GRANTM/XML-SAX-Base-1.08.tar.gz",
+         "provides" : {
+            "XML::SAX::Base" : {
+               "file" : "lib/XML/SAX/Base.pm",
+               "version" : "1.08"
+            },
+            "XML::SAX::Base::NoHandler" : {
+               "file" : "lib/XML/SAX/Base.pm",
+               "version" : "1.08"
+            },
+            "XML::SAX::Exception" : {
+               "file" : "lib/XML/SAX/Exception.pm",
+               "version" : "1.08"
+            }
+         },
+         "target" : "XML::SAX::Base",
+         "version" : "1.08"
       },
       "XML::XPathEngine" : {
          "dist" : "XML-XPathEngine-0.14",

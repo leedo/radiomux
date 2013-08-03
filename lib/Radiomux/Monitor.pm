@@ -23,16 +23,16 @@ class Monitor {
   }
 
   method tick {
+    undef $timer;
     my $cb; $cb = sub {
       my ($station, @stations) = @_;
 
       if (!$station) {
         undef $cb;
-        my $timer = AE::timer 0, $interval, sub { $self->tick };
+        $timer = AE::timer $interval, 0, sub { $self->tick };
         return;
       }
 
-      warn "fetching $station";
       $station->fetch(sub {
          my ($err, $station, $plays) = @_;
          warn $err if $err;

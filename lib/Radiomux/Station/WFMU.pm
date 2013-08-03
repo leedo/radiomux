@@ -4,7 +4,7 @@ use v5.16;
 use warnings;
 use mop;
 
-use Web::Scraper;
+use Web::Scraper::LibXML;
 use Radiomux::Play;
 
 class WFMU extends Radiomux::Station {

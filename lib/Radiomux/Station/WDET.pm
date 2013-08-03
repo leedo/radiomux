@@ -5,7 +5,7 @@ use warnings;
 use mop;
 
 use Encode;
-use Web::Scraper;
+use Web::Scraper::LibXML;
 use Radiomux::Play;
 
 class WDET extends Radiomux::Station {
