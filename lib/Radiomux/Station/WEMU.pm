@@ -34,7 +34,7 @@ class WEMU extends Radiomux::Station {
 
     my $now = DateTime->now;
     my $date = DateTime->new(
-      hour => ($ampm eq "PM" ? $hour + 12 : $hour),
+      hour => ($ampm eq "PM" ? $hour + 12 : $hour) - 1,
       minute => $minute,
       day => $day,
       month => find_month($month),

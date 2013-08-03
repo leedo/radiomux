@@ -68,10 +68,6 @@ class Web metaclass Radiomux::Webclass {
     };
   }
 
-  method events {
-    values %$events;
-  }
-
   submethod BUILD {
     $self->monitor->subscribe(sub {
       my ($station, @plays) = @_;
@@ -92,6 +88,8 @@ class Web metaclass Radiomux::Webclass {
 
     $self->monitor->start(5);
   }
+
+  method events { values %$events }
 
   method root ($req) is route(GET => qr{^/$}) {
     my $html = $self->template->render("index.tx", {
@@ -173,7 +171,6 @@ class Web metaclass Radiomux::Webclass {
 
       $events->{$id} = [$h, $writer, $req->env];
     };
-
   }
 }
 
