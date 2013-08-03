@@ -55,7 +55,7 @@
           add_plays(data.station, data.plays);
         });
 
-        $('.station').on('click', '.paused', function(e) {
+        $('.station').on('click', '.paused,.error', function(e) {
           e.preventDefault();
           if (playing) playing.pause();
           $('.playing').removeClass('playing').addClass("paused");
@@ -63,9 +63,22 @@
           var button = $(this);
           var station = button.parents(".station");
           var name = station.attr('data-station');
-          station.addClass("active");
-          button.removeClass("paused").addClass("playing");
-          playing = new Audio("/play?station=" + name);
+          var src = "/play?station=" + name;
+
+          playing = new Audio(src);
+
+          button.removeClass("paused playing error").addClass("loading");
+
+          playing.addEventListener("playing", function(e) {
+            button.removeClass("paused loading error").addClass("playing");
+            station.addClass("active");
+          });
+
+          playing.addEventListener("error", function(e) {
+            // we empty src to stop, which throws an error
+            if (playing.src == src)
+              button.removeClass("playing loading").addClass("error");
+          });
           playing.play();
         });
 
@@ -78,11 +91,12 @@
           });
         });
 
-        $('.station').on('click', '.playing', function(e) {
+        $('.station').on('click', '.playing,.loading', function(e) {
           e.preventDefault();
           if (playing) {
+            playing.pause();
             playing.src = "";
-            $(this).removeClass("playing").addClass("paused");
+            $(this).removeClass("playing error loading").addClass("paused");
             $(this).parents('.station').removeClass('active');
           }
         });
@@ -98,4 +112,3 @@
     </script>
   </body>
 </html>
-    

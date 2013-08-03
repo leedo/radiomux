@@ -34,9 +34,17 @@ span.buttons {
 span.record:after { content: "●" }
 span.paused:after { content: "▶" }
 span.playing:after { content: "❚❚" }
+span.loading:after { content: "…" }
+span.error:after { content: "!" }
 span.refresh:after { content: "↻"; -webkit-transform: scale(-1, 1); }
 
+span.error {
+  font-weight: bold;
+  color: #E9452C;
+}
+
 span.button.active,
+span.button.loading,
 span.playing {
   background: #ddd;
   border-right: 1px solid #ccc;
