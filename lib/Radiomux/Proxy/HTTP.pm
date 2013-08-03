@@ -17,7 +17,7 @@ class HTTP extends Radiomux::Proxy {
         my ($_handle, $headers) = @_;
 
         if ($headers->{Status} == 200) {
-          $http_headers = [ map {$_ => $headers->{$_}} grep {/^[a-z]/} keys $headers ];
+          $http_headers = [ map {$_ => $headers->{$_}} grep {/^[a-z]/ and !/^icy-/i} keys $headers ];
           $self->setup_handle($_handle);
         }
         else {

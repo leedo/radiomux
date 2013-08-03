@@ -105,9 +105,9 @@ class Web metaclass Radiomux::Webclass {
 
     return sub {
       my $respond = shift;
-      $self->redis->srem($station->name, $token, sub {
+      $self->redis->get($token, sub {
         return $respond->([500, ["Content-Type" => "text/plain"], ["invalid token"]])
-          unless shift == 1;
+          unless shift eq $station->name;
         Radiomux::Proxy->with($station)->add_listener($req->env, $respond, $token);
       });
     };
@@ -123,7 +123,7 @@ class Web metaclass Radiomux::Webclass {
     my $token = $self->uuid->create_str;
     return sub {
       my $respond = shift;
-      $self->redis->sadd($station->name, $token, sub {
+      $self->redis->setex($token, 10, $station->name, sub {
         $respond->([200, ["Content-Type" => "text/plain"], [$token]]);
       });
     };

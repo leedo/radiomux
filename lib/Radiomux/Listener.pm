@@ -38,7 +38,7 @@ class Listener {
     $writer = $respond->([200, [@$headers]]);
     $handle = AnyEvent::Handle->new(
       fh => $env->{'psgix.io'},
-      on_error => sub { $on_error->($self->token) },
+      on_error => sub { warn $_[2]; $on_error->($self->token) },
     );
     return $self;
   }

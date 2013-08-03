@@ -8,6 +8,7 @@ requires 'IO::AIO';
 requires 'AnyEvent::AIO';
 requires 'List::MoreUtils';
 requires 'Web::Scraper';
+requires 'HTML::TreeBuilder::LibXML'; # for fast scraper
 requires 'Data::UUID';
 requires 'Text::Xslate';
 requires 'JSON::XS';
