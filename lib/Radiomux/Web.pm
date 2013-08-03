@@ -82,7 +82,7 @@ class Web metaclass Radiomux::Webclass {
     $self->monitor->add_station(Radiomux::Station::WUOM->new);
     $self->monitor->add_station(Radiomux::Station::WFMU->new);
 
-    $self->monitor->start(5);
+    $self->monitor->start;
   }
 
   method events { values %$events }
