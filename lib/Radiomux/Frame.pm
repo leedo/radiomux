@@ -59,14 +59,14 @@ sub valid_frame {
   my $bytes = shift;
   my @hb = unpack("CCCC",$bytes);
 
-  ($hb[B_SYNC]    & M_SYNC)    >> R_SYNC    != 0x07 and next; # see if the sync remains
+  ($hb[B_SYNC]    & M_SYNC)    >> R_SYNC    != 0x07 and return; # see if the sync remains
   my $v = ($hb[B_VERSION] & M_VERSION) >> R_VERSION;
-  $v == 0x00 and ($mpeg25 or next);
-  $v == 0x01 and next;
-  ($hb[B_LAYER]   & M_LAYER)   >> R_LAYER   == 0x00 and next;
-  ($hb[B_BITRATE] & M_BITRATE) >> R_BITRATE == 0x0f and next;
-  ($hb[B_SAMPLE]  & M_SAMPLE)  >> R_SAMPLE  == 0x03 and next;
-  ($hb[B_EMPH]    & M_EMPH)    >> R_EMPH    == 0x02 and ($lax or next);
+  $v == 0x00 and ($mpeg25 or return);
+  $v == 0x01 and return;
+  ($hb[B_LAYER]   & M_LAYER)   >> R_LAYER   == 0x00 and return;
+  ($hb[B_BITRATE] & M_BITRATE) >> R_BITRATE == 0x0f and return;
+  ($hb[B_SAMPLE]  & M_SAMPLE)  >> R_SAMPLE  == 0x03 and return;
+  ($hb[B_EMPH]    & M_EMPH)    >> R_EMPH    == 0x02 and ($lax or return);
 
   return 1;
 }
