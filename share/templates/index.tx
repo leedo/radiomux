@@ -138,6 +138,7 @@
             playing.src = "";
             $(this).removeClass("playing error loading").addClass("paused");
             $(this).parents('.station').removeClass('active');
+            $(this).parents('.station').find('.recording').trigger('click');
           }
         });
 
