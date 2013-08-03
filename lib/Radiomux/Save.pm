@@ -32,7 +32,10 @@ class Save {
           return;
         }
         $fh = $_[0];
-        $self->write($buffer) if $buffer;
+        if ($buffer) {
+          $self->write($buffer);
+          undef $buffer;
+        }
       };
     };
   }
@@ -50,6 +53,9 @@ class Save {
   }
 
   method destroy {
+    $offset = 0;
+    undef $buffer;
+
     if ($fh) {
       close $fh;
       undef $fh;
