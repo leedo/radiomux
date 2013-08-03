@@ -3,7 +3,7 @@ use warnings;
 
 use Plack::Builder;
 use Plack::App::File;
-use Radiomux::Web;
+use Radiomux;
 
 builder {
   enable "Plack::Middleware::Static", path => qr{^/assets/}, root => "./share/";

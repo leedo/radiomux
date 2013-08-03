@@ -1,5 +1,6 @@
 package Radiomux;
 
+use Radiomux::Web;
 use Radiomux::Proxy;
 use Radiomux::Monitor;
 

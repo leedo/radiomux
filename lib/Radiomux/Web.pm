@@ -1,7 +1,3 @@
-package main;
-
-use Radiomux;
-
 package Radiomux;
 
 use v5.16;
