@@ -31,6 +31,7 @@ span.buttons {
   float: right;
 }
 
+span.record:after { content: "●" }
 span.paused:after { content: "▶" }
 span.playing:after { content: "❚❚" }
 span.refresh:after { content: "↻"; -webkit-transform: scale(-1, 1); }
@@ -46,6 +47,10 @@ span.playing {
 
 span.playing {
   text-shadow: 0px 0px 3px #fff;
+}
+
+span.record.active {
+  color: #E9452C;
 }
 
 div.station {
@@ -125,7 +130,7 @@ div#stations {
 }
 
 div.station.active h2:after {
-  content: "●";
+  content: "…";
   color: #E9452C;
   line-height: 0px;
 }

@@ -63,9 +63,21 @@ builder {
       if ($station) {
         return sub {
           my $respond = shift;
-          my $proxy = Radiomux::Proxy->with($station);
-          $proxy->add_listener($env, $respond);
+          Radiomux::Proxy->with($station)->add_listener($env, $respond);
         };
+      }
+    }
+    return [500, ["Content-Type" => "text/plain"], ["invalid station"]];
+  };
+
+  mount "/record", sub {
+    my $env = shift;
+    my $req = Plack::Request->new($env);
+    if (defined $req->parameters->{station}) {
+      my $station = $monitor->find_station($req->parameters->{station});
+      if ($station) {
+        Radiomux::Proxy->with($station)->record;
+        return [200, ["Content-Type" => "text/plain"], ["ok"]];
       }
     }
     return [500, ["Content-Type" => "text/plain"], ["invalid station"]];

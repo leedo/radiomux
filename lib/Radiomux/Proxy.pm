@@ -5,6 +5,9 @@ use warnings;
 use mop;
 
 use AnyEvent::Handle;
+
+use Radiomux::Listener;
+use Radiomux::Save;
 use Radiomux::Frame;
 use Radiomux::Proxy::HTTP;
 use Radiomux::Proxy::ICE;
@@ -13,6 +16,7 @@ class Proxy is abstract {
   has $max = 1;
   has $station is ro;
   has $listeners is rw = {};
+  has $recordings is rw = {};
   has $queue is rw = [];
   has $http_headers is rw;
   has $handle;
@@ -33,9 +37,8 @@ class Proxy is abstract {
       if (@$queue) {
         # not-so-carefully wait for the next frame header
         shift->push_read(regex => qr{\xff}, sub {
-
           # write everything up to start of header
-          $_->push_write($_[1]) for map { $_->[0] } values %$listeners;
+          $_->write($_[1]) for values %$listeners;
 
           # read rest of header
           shift->push_read(chunk => 3, sub {
@@ -43,16 +46,21 @@ class Proxy is abstract {
             if (Radiomux::Frame::valid_frame($header)) {
               while (my $listener = shift @$queue) {
                 AE::log debug => "adding new listener";
-                $self->_add_listener(@$listener);
+                $listeners->{$listener->id} = $listener;
+
+                # don't need any http headers for saves... hmm
+                if (ref $listener eq "Radiomux::Listener") {
+                  $listener->respond($self->http_headers);
+                }
               }
-              $_->push_write($header) for map { $_->[0] } values %$listeners;
+              $_->write($header) for values %$listeners;
             }
           });
         });
       }
       else {
         shift->push_read(chunk => 1024 * 32, sub {
-          $_->push_write($_[1]) for map { $_->[0] } values %$listeners;
+          $_->write($_[1]) for values %$listeners;
         });
       }
     });
@@ -66,31 +74,40 @@ class Proxy is abstract {
   }
 
   method destroy {
-    AE::log debug => "destroying stream";
+    warn "destroying stream";
     $handle->destroy if $handle;
-    $_->destroy for map { $_->[0] } values %$listeners;
+    $_->destroy for values %$listeners;
     $connected = 0;
     $listeners = {};
     $queue = [];
   }
 
+  method handle_disconnect ($id) {
+    if (my $listener = $listeners->{$id}) {
+      $listener->destroy;
+      delete $listeners->{$id};
+    }
+  }
+
   method add_listener ($env, $respond) {
-    push @$queue, [$env, $respond];
+    my $id = $max++;
+    push @$queue, Radiomux::Listener->new(
+      env      => $env,
+      respond  => $respond,
+      id       => $id,
+      on_error => sub { $self->handle_disconnect($id) },
+    );
     $self->connect unless $connected;
   }
 
-  method _add_listener ($env, $respond) {
+  method record {
     my $id = $max++;
-    my $writer = $respond->([200, [@{$self->http_headers}]]);
-    my $h = AnyEvent::Handle->new(
-      fh => $env->{'psgix.io'},
-      on_error => sub {
-        AE::log warn => $_[2];
-        delete $listeners->{$id};
-        $self->destroy unless keys %$listeners;
-      }
+    push @$queue, Radiomux::Save->new(
+      station_name => $station->name,
+      id           => $id,
+      on_error     => sub { $self->handle_disconnect($id) },
     );
-    $listeners->{$id} = [$h, $env, $writer];
+    $self->connect unless $connected;
   }
 }
 

@@ -10,7 +10,7 @@
     <div id="stations">
     : for $monitor.stations -> $station {
     <div class="station" id="station-<: $station.name :>" data-station="<: $station.name :>">
-      <h2><: $station.name :> <span class="buttons"><span class="button paused"></span></span></h2>
+      <h2><: $station.name :> <span class="buttons"><span class="button record"></span><span class="button paused"></span></span></h2>
       <ol class="plays"></ol>
     </div>
     : }
@@ -67,6 +67,15 @@
           button.removeClass("paused").addClass("playing");
           playing = new Audio("/play?station=" + name);
           playing.play();
+        });
+
+        $('.station').on('click', '.record', function(e) {
+          $(this).addClass("active");
+          $.ajax({
+            url: "/record",
+            type: "GET",
+            data: { station: $(this).parents(".station").attr("data-station") },
+          });
         });
 
         $('.station').on('click', '.playing', function(e) {
