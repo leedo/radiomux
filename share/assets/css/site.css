@@ -34,10 +34,10 @@ span.buttons {
   float: right;
 }
 
-span.record    { background-position: 0px -82px }
+span.record    { background-position: 0px -78px }
 span.recording { background-position: 0px -52px }
 span.paused    { background-position: 0px -104px }
-span.playing    { background-position: 0px 26px }
+span.playing    { background-position: 0px -26px }
 span.loading    { background-position: 0px 0px }
 span.error    { background-position: 0px 0px }
 span.refresh    { background-position: 0px 0px }
@@ -143,12 +143,6 @@ span.timestamp {
 
 div#stations {
   padding: 10px;
-}
-
-div.station.active h2:after {
-  content: "…";
-  color: #E9452C;
-  line-height: 0px;
 }
 
 div.station.active span.record {
