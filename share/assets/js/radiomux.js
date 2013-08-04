@@ -62,7 +62,7 @@ radiomux = {
 
           radiomux.playing = soundManager.createSound({
             url: src,
-            autoplay: true,
+            autoPlay: true,
             onplay: function() {
               button.removeClass("paused loading error").addClass("playing");
               button.before(record);
