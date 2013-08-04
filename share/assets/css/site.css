@@ -4,29 +4,30 @@ body {
 }
 
 span.button:hover {
-  background-color: #ddd;
-  border-right: 1px solid #bbb;
-  border-bottom: 1px solid #bbb;
+  background-color: #ccc;
+  border-top-color: #ddd;
+  border-left-color: #ddd;
+  border-right-color: #aaa;
+  border-bottom-color: #aaa;
 }
 
 span.button {
   background-image: url(../images/sprites.png);
-  background-color: #eee;
+  background-color: #ddd;
   background-repeat: no-repeat;
-  width: 1em;
-  height: 1em;
+  width: 12px;
+  height: 12px;
   padding: 5px 5px 4px 5px;
-  border-right: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  border-top: 1px solid #eee;
-  border-left: 1px solid #fff;
-  line-height: 20px;
+  border-right: 3px solid #bbb;
+  border-bottom: 3px solid #bbb;
+  border-top: 3px solid #eee;
+  border-left: 3px solid #eee;
   color: #444;
   cursor: pointer;
   display: inline-block;
   text-align: center;
-  font-size: 16px;
   border-radius: 2px;
+  margin-left: 5px;
 }
 
 span.buttons {
@@ -34,23 +35,26 @@ span.buttons {
   float: right;
 }
 
-span.record    { background-position: 0px -78px }
-span.recording { background-position: 0px -52px }
-span.paused    { background-position: 0px -104px }
-span.playing    { background-position: 0px -26px }
-span.loading    { background-position: 0px 0px }
-span.error    { background-position: 0px 0px }
-span.refresh    { background-position: 0px 0px }
+span.record    { background-position: -2px -80px }
+span.recording { background-position: -2px -54px }
+span.paused    { background-position: -2px -105px }
+span.playing    { background-position: -2px -28px }
+span.loading    { background-position: -2px 1px }
+span.error    { background-position: -2px 1px }
+span.refresh    { background-position: -2px 1px }
 
 span.button.active,
 span.button.loading,
+span.button.loading:hover,
 span.recording,
-span.playing {
-  background-color: #ddd;
-  border-right: 1px solid #ccc;
-  border-top: 1px solid #bbb;
-  border-left: 1px solid #bbb;
-  border-bottom: 1px solid #ccc;
+span.recording:hover,
+span.playing,
+span.playing:hover {
+  background-color: #ccc;
+  border-right-color: #bbb;
+  border-bottom-color: #bbb;
+  border-top-color: #999;
+  border-left-color: #999;
 }
 
 span.playing {
