@@ -113,6 +113,7 @@ radiomux = {
     $('.station').on('click', '.playing,.loading', function(e) {
       e.preventDefault();
       if (radiomux.playing) {
+        radiomux.playing.pause();
         radiomux.playing.unload();
         $(this).removeClass("playing error loading").addClass("paused");
         $(this).parents('.station').removeClass('active');

@@ -33,12 +33,6 @@
       });
 
       radiomux.init(<: $data :>);
-
-      $(document).ready(function() {
-        if (window.navigator.userAgent.match(/Firefox/)) {
-          alert("Firefox can not play MP3 files");
-        }
-      });
     </script>
   </body>
 </html>
