@@ -19,18 +19,15 @@ class Save {
 
   submethod BUILD {
     my $now = time;
-    $filename = "recordings/$station_name/$now.mp3";
+    $dir    = "recordings/$station_name";
+    $file   = "$dir/$station_name-$now.mp3";
 
-    aio_mkdir "recordings/$station_name", 0755, sub {
-      unless ($_[0]) {
-        $on_error->($self->id, "failed to make dir: $!");
-        return;
-      }
-      aio_open "recordings/$station_name/$now.mp3", IO::AIO::O_WRONLY | IO::AIO::O_CREAT, 0644, sub {
-        unless ($_[0]) {
-          $on_error->($self->id, "failed to open mp3: $!");
-          return;
-        }
+    aio_mkdir $dir, 0755, sub {
+      return $on_error->($self->id, "failed to make dir: $!")
+        unless $_[0];
+      aio_open $file, IO::AIO::O_WRONLY | IO::AIO::O_CREAT, 0644, sub {
+        return $on_error->($self->id, "failed to open mp3: $!")
+          unless $_[0];
         $fh = $_[0];
         if ($buffer) {
           $self->write($buffer);
