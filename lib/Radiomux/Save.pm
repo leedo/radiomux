@@ -18,9 +18,9 @@ class Save {
   method token { $self->id }
 
   submethod BUILD {
-    my $now = time;
-    $dir    = "recordings/$station_name";
-    $file   = "$dir/$station_name-$now.mp3";
+    my $now  = time;
+    my $dir  = "recordings/$station_name";
+    my $file = "$dir/$station_name-$now.mp3";
 
     aio_mkdir $dir, 0755, sub {
       return $on_error->($self->id, "failed to make dir: $!")
