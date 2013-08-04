@@ -8,7 +8,7 @@ use AnyEvent::Socket;
 use AnyEvent::Handle;
 use URI;
 
-class ICE extends Radiomux::Proxy {
+class ICY extends Radiomux::Proxy {
   has $http_headers is ro;
 
   method connect () {
