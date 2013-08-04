@@ -52,8 +52,8 @@ class Proxy is abstract {
                   $listener->respond($self->http_headers);
                 }
               }
-              $_->write($header) for values %$listeners;
             }
+            $_->write($header) for values %$listeners;
           });
         });
       }
