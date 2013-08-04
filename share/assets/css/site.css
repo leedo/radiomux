@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  padding-top: 26px;
 }
 
 span.button:hover {
@@ -84,6 +85,10 @@ h1 {
   background: #000;
   color: #efefef;
   font-weight: normal;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
 }
 
 span.condensed { 
@@ -160,4 +165,20 @@ iframe.download {
   border: none;
   padding: 0;
   margin: 0;
+}
+
+@media(max-width: 500px) {
+  div#stations {
+    padding: 0;
+  }
+  div.station {
+    border: none;
+    margin-left: 0px;
+    padding: 10px 0;
+    width: auto;
+    float: none;
+  }
+  h1 {
+    padding: 4px 4px;
+  }
 }

@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <title>goodrad.io</title>
     <link type="text/css" rel="stylesheet" href="/assets/css/site.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   </head>
   <body>
     <h1>goodrad.io<span class="condensed">﹚﹚﹚<span></h1>
