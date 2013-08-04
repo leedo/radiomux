@@ -55,29 +55,24 @@ radiomux = {
         data: { station: name },
         success: function(token) {
           var src = sprintf("/play?token=%s&station=%s", token, name);
-          radiomux.playing = soundManager.createSound({url: src});
-
           var record = $('<span/>',{
             'class': 'button record',
             'data-listen-token': token
           });
 
-          /*
-          radiomux.playing.addEventListener("playing", function(e) {
-            button.removeClass("paused loading error").addClass("playing");
-            button.before(record);
-            station.addClass("active");
-          });
-
-          radiomux.playing.addEventListener("error", function(e) {
-            record.remove();
-            // we empty src to stop, which throws an error
-            if (radiomux.playing.src == src)
+          radiomux.playing = soundManager.createSound({
+            url: src,
+            autoplay: true,
+            onplay: function() {
+              button.removeClass("paused loading error").addClass("playing");
+              button.before(record);
+              station.addClass("active");
+            },
+            onerror: function(e) {
+              record.remove();
               button.removeClass("playing loading").addClass("error");
+            }
           });
-          */
-
-          radiomux.playing.play();
         }
       });
     });
