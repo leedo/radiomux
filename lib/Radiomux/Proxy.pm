@@ -10,7 +10,7 @@ use Radiomux::Listener;
 use Radiomux::Save;
 use Radiomux::Frame;
 use Radiomux::Proxy::HTTP;
-use Radiomux::Proxy::ICE;
+use Radiomux::Proxy::ICY;
 
 class Proxy is abstract {
   has $station is ro;
