@@ -25,7 +25,7 @@ class Listener {
   method stop_save {
     if ($save) {
       $save->destroy;
-      return $save->filename;
+      return $save->path;
     }
   }
 
