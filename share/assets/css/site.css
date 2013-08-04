@@ -4,12 +4,15 @@ body {
 }
 
 span.button:hover {
-  background: #ddd;
+  background-color: #ddd;
   border-right: 1px solid #bbb;
   border-bottom: 1px solid #bbb;
 }
 
 span.button {
+  background-image: url(../images/sprites.png);
+  background-color: #eee;
+  background-repeat: no-repeat;
   width: 1em;
   height: 1em;
   padding: 5px 5px 4px 5px;
@@ -22,7 +25,6 @@ span.button {
   cursor: pointer;
   display: inline-block;
   text-align: center;
-  background: #eee;
   font-size: 16px;
   border-radius: 2px;
 }
@@ -32,24 +34,19 @@ span.buttons {
   float: right;
 }
 
-span.record:after { content: "●" }
-span.recording:after { content: "●" }
-span.paused:after { content: "▶" }
-span.playing:after { content: "❚❚" }
-span.loading:after { content: "…" }
-span.error:after { content: "!" }
-span.refresh:after { content: "↻"; -webkit-transform: scale(-1, 1); }
-
-span.error {
-  font-weight: bold;
-  color: #E9452C;
-}
+span.record    { background-position: 0px -82px }
+span.recording { background-position: 0px -52px }
+span.paused    { background-position: 0px -104px }
+span.playing    { background-position: 0px 26px }
+span.loading    { background-position: 0px 0px }
+span.error    { background-position: 0px 0px }
+span.refresh    { background-position: 0px 0px }
 
 span.button.active,
 span.button.loading,
 span.recording,
 span.playing {
-  background: #ddd;
+  background-color: #ddd;
   border-right: 1px solid #ccc;
   border-top: 1px solid #bbb;
   border-left: 1px solid #bbb;
