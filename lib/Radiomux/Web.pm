@@ -60,8 +60,14 @@ class Web metaclass Radiomux::Webclass {
           return $self->$method($req);
         }
       }
-      return [404, ["Content-Type", "text/plain"], ["not found"]];
+      return $self->error("not found", 404);
     };
+  }
+
+  method error ($message, $status) {
+    $message //= "invalid request";
+    $status //= 500;
+    return [$status, ["Content-Type", "text/plain"], [$message]];
   }
 
   submethod BUILD {
@@ -100,13 +106,13 @@ class Web metaclass Radiomux::Webclass {
     my $station = $self->monitor->find_station($req->parameters->{station});
 
     unless ($station and $token) {
-      return [500, ["Content-Type" => "text/plain"], ["invalid request"]];
+      return $self->error;
     }
 
     return sub {
       my $respond = shift;
       $self->redis->get($token, sub {
-        return $respond->([500, ["Content-Type" => "text/plain"], ["invalid token"]])
+        return $respond->($self->error("invalid token"))
           unless shift eq $station->name;
         Radiomux::Proxy->with($station)->add_listener($req->env, $respond, $token);
       });
@@ -117,7 +123,7 @@ class Web metaclass Radiomux::Webclass {
     my $station = $self->monitor->find_station($req->parameters->{station});
 
     unless ($station) {
-      return [500, ["Content-Type" => "text/plain"], ["invalid station"]];
+      return $self->error("invalid station");
     }
 
     my $token = $self->uuid->create_str;
@@ -134,7 +140,7 @@ class Web metaclass Radiomux::Webclass {
     my $station = $self->monitor->find_station($req->parameters->{station});
 
     unless ($station and $token) {
-      return [500, ["Content-Type" => "text/plain"], ["invalid request"]];
+      return $self->error;
     }
 
     my $filename = Radiomux::Proxy->with($station)->stop_record($token);
@@ -146,7 +152,7 @@ class Web metaclass Radiomux::Webclass {
     my $station = $self->monitor->find_station($req->parameters->{station});
 
     unless ($station and $token) {
-      return [500, ["Content-Type" => "text/plain"], ["invalid request"]];
+      return $self->error;
     }
 
     Radiomux::Proxy->with($station)->start_record($token);
