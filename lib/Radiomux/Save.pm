@@ -20,12 +20,12 @@ class Save {
   submethod BUILD {
     my $now  = time;
     my $dir  = "recordings/$station_name";
-    my $file = "$dir/$station_name-$now.mp3";
+    $filename = "$station_name-$now.mp3";
 
     aio_mkdir $dir, 0755, sub {
       return $on_error->($self->id, "failed to make dir: $!")
         unless $_[0];
-      aio_open $file, IO::AIO::O_WRONLY | IO::AIO::O_CREAT, 0644, sub {
+      aio_open "$dir/$file", IO::AIO::O_WRONLY | IO::AIO::O_CREAT, 0644, sub {
         return $on_error->($self->id, "failed to open mp3: $!")
           unless $_[0];
         $fh = $_[0];
