@@ -87,6 +87,7 @@ class Web metaclass Radiomux::Webclass {
     $self->monitor->add_station(Radiomux::Station::WDET->new);
     $self->monitor->add_station(Radiomux::Station::WUOM->new);
     $self->monitor->add_station(Radiomux::Station::WFMU->new);
+    $self->monitor->add_station(Radiomux::Station::KCRW->new);
 
     $self->monitor->start;
   }

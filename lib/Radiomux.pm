@@ -9,5 +9,6 @@ use Radiomux::Station::WEMU;
 use Radiomux::Station::WDET;
 use Radiomux::Station::WUOM;
 use Radiomux::Station::WFMU;
+use Radiomux::Station::KCRW;
 
 1;
