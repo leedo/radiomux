@@ -73,7 +73,7 @@ class Web metaclass Radiomux::Webclass {
   submethod BUILD {
     $self->monitor->subscribe(sub {
       my ($station, @plays) = @_;
-      for my $h (map { $_->[0] } $self->events) {
+      for my $h ($self->events) {
         my $data = encode_json {
           station => $station->name,
           plays   => [map { $_->marshall } @plays],
@@ -106,9 +106,7 @@ class Web metaclass Radiomux::Webclass {
     my $token = $req->parameters->{token};
     my $station = $self->monitor->find_station($req->parameters->{station});
 
-    unless ($station and $token) {
-      return $self->error;
-    }
+    return $self->error unless $station and $token;
 
     return sub {
       my $respond = shift;
@@ -123,9 +121,7 @@ class Web metaclass Radiomux::Webclass {
   method token ($req) is route(GET => qr{^/token/?}) {
     my $station = $self->monitor->find_station($req->parameters->{station});
 
-    unless ($station) {
-      return $self->error("invalid station");
-    }
+    return $self->error("invalid station") unless $station;
 
     my $token = $self->uuid->create_str;
     return sub {
@@ -140,9 +136,7 @@ class Web metaclass Radiomux::Webclass {
     my $token = $req->parameters->{token};
     my $station = $self->monitor->find_station($req->parameters->{station});
 
-    unless ($station and $token) {
-      return $self->error;
-    }
+    return $self->error unless $station and $token;
 
     my $filename = Radiomux::Proxy->with($station)->stop_record($token);
     return [200, ["Content-Type" => "text/plain"], [$filename]];
@@ -152,9 +146,7 @@ class Web metaclass Radiomux::Webclass {
     my $token = $req->parameters->{token};
     my $station = $self->monitor->find_station($req->parameters->{station});
 
-    unless ($station and $token) {
-      return $self->error;
-    }
+    return $self->error unless $station and $token;
 
     Radiomux::Proxy->with($station)->start_record($token);
     return [200, ["Content-Type" => "text/plain"], ["ok"]];
@@ -169,10 +161,14 @@ class Web metaclass Radiomux::Webclass {
 
       my $h = AnyEvent::Handle->new(
         fh => $req->env->{'psgix.io'},
-        on_error => sub { delete $events->{$id} },
+        on_error => sub {
+          delete $events->{$id};
+          undef $req;
+          undef $writer;
+        },
       );
 
-      $events->{$id} = [$h, $writer, $req->env];
+      $events->{$id} = $h;
     };
   }
 }
