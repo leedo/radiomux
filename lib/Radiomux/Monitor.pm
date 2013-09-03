@@ -55,12 +55,12 @@ class Monitor {
     $_->($station, @$plays) for @$listeners;
   }
 
-  method marshall {
+  method serialize {
     [
       map {
         +{
           station => $_->name,
-          plays   => [map { $_->marshall } @{$_->plays}],
+          plays   => [map { $_->serialize } @{$_->plays}],
         }
       } @{$self->stations}
     ];

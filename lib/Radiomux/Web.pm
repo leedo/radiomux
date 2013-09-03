@@ -76,7 +76,7 @@ class Web metaclass Radiomux::Webclass {
       for my $h ($self->events) {
         my $data = encode_json {
           station => $station->name,
-          plays   => [map { $_->marshall } @plays],
+          plays   => [map { $_->serialize } @plays],
         };
         $h->push_write("data: $data\n\n");
       }
@@ -97,7 +97,7 @@ class Web metaclass Radiomux::Webclass {
   method root ($req) is route(GET => qr{^/$}) {
     my $html = $self->template->render("index.tx", {
       monitor => $self->monitor,
-      data    => mark_raw encode_json $self->monitor->marshall,
+      data    => mark_raw encode_json $self->monitor->serialize,
     });
     return [200, ["Content-Type" => "text/html"], [encode "utf8", $html]];
   }

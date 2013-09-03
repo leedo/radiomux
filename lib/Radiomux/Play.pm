@@ -20,7 +20,7 @@ class Play {
     }
   }
 
-  method marshall {
+  method serialize {
     +{ map { $_ => $self->$_ } qw{artist title album label timestamp hash} };
   }
 
